@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search> 
+  
+  
+    
+    <entry>
+      <title>How to create a blog</title>
+      <link href="/2024/08/11/blog-create/"/>
+      <url>/2024/08/11/blog-create/</url>
+      
+        <content type="html"><![CDATA[<h1 id="小白创建hexo的（艰难）路程"><a href="#小白创建hexo的（艰难）路程" class="headerlink" title="小白创建hexo的（艰难）路程"></a>小白创建hexo的（艰难）路程</h1><h2 id="step-1-下载工具"><a href="#step-1-下载工具" class="headerlink" title="step 1: 下载工具"></a>step 1: 下载工具</h2><p>自行下载git、nodejs</p><p><strong>检查是否下载成功：</strong></p><figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">node -v</span><br><span class="line">npm -v (node自带包管理器)</span><br><span class="line">git -v</span><br></pre></td></tr></table></figure><p><strong>下载hexo：</strong></p><figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-cli -g</span><br></pre></td></tr></table></figure><h2 id="step-2-新建仓库"><a href="#step-2-新建仓库" class="headerlink" title="step 2: 新建仓库"></a>step 2: 新建仓库</h2><ol><li>创建一个github账号（连接不上请用魔法）</li><li>在home页面的左侧点击Create repository或之类的</li><li>Repository name: &lt;用户名&gt;.github.io</li><li>勾选 Public 和 Add a README file</li><li>点击创建仓库</li></ol><h2 id="step-3-生成SSH-Keys"><a href="#step-3-生成SSH-Keys" class="headerlink" title="step 3: 生成SSH Keys"></a>step 3: 生成SSH Keys</h2><p>在git bash中输入如下代码：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t  rsa -C &lt;邮箱地址&gt;</span><br></pre></td></tr></table></figure><p>接着敲四下键盘</p><p>在路径”C:\Users\cirmatic.ssh”下找到文件”id_rsa.pub”，复制文件中的所有内容</p><p>在github–&gt;settings–&gt;SSH中，新建SSH Keys。Title任意，Key中粘贴刚刚复制的内容，然后点击Add SSH Key</p><p><strong>在git bash中输入以下命令验证是否成功添加：</strong></p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -T git@github.com</span><br></pre></td></tr></table></figure><p><strong>出现successfully authenticated就成功了（大概）</strong></p><h2 id="step-3-本地部署"><a href="#step-3-本地部署" class="headerlink" title="step 3: 本地部署"></a>step 3: 本地部署</h2><ul><li>创建一个文件夹放置博客文件，如”BlogFile”</li><li>打开git bash并且cd到该文件夹</li><li>输入以下命令</li></ul><figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">hexo init #初始化空文件夹</span><br><span class="line">hexo install #下载相关文件</span><br><span class="line">hexo g #生成静态文件</span><br><span class="line">hexo s #本地部署。这将得到一个链接，打开就可看到本地部署的blog</span><br><span class="line">Ctrl ^C #停止本地服务器</span><br></pre></td></tr></table></figure><h2 id="step-4-上传博客"><a href="#step-4-上传博客" class="headerlink" title="step 4: 上传博客"></a>step 4: 上传博客</h2><ul><li><p>在github的仓库中，点击Code并复制仓库链接。（它或许长这样：”<a href="https://github.com/">https://github.com/</a>&lt;用户名&gt;&#x2F;&lt;用户名&gt;.github.io”）</p></li><li><p>打开”BlogFile”文件夹中的”_config.yml”文件，将文件末尾deploy:及以后的内容改为以下代码 ：</p></li></ul><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">type:git</span><br><span class="line">repository:<span class="string">&quot;https://github.com/&lt;用户名&gt;/&lt;用户名&gt;.github.io&quot;</span> <span class="comment">//此处是复制的仓库链接</span></span><br><span class="line">branch:main</span><br></pre></td></tr></table></figure><ul><li>打开git bash并cd到”BlogFile”，输入：</li></ul><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo g</span><br></pre></td></tr></table></figure><p><em>此处可能出现诸如“git未部署”之类的问题（主要是忘记那个报错叫什么了），请下载插件hexo-deployer-git</em></p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-deployer-git</span><br></pre></td></tr></table></figure><ul><li>上传blog，输入：</li></ul><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo d</span><br></pre></td></tr></table></figure><p><em>第一次使用时，需要设置配置</em></p><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.email <span class="string">&quot;your@example.com&quot;</span> <span class="comment">//填入邮箱</span></span><br><span class="line">git config --global user.name <span class="string">&quot;your name&quot;</span> <span class="comment">//填入用户名</span></span><br></pre></td></tr></table></figure><ul><li>配置完成后再次上传：</li></ul><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo d</span><br></pre></td></tr></table></figure><ul><li>在弹出的github窗口中登录</li></ul><h2 id="step-5-访问"><a href="#step-5-访问" class="headerlink" title="step 5: 访问"></a>step 5: 访问</h2><p>输入”&lt;用户名&gt;.github.io”访问</p><h2 id="网络问题"><a href="#网络问题" class="headerlink" title="网络问题"></a>网络问题</h2><p><u>在以上步骤中，涉及下载和上传的步骤都可能出现网络问题。这很玄学</u></p><p><strong>可能的解决方法</strong>：</p><ol><li>重新开启&#x2F;关闭梯子</li><li>更换下载的镜像源：<a href="https://blog.csdn.net/qq_43940789/article/details/131449710">国内npm源镜像（npm加速下载） 指定npm镜像_npm 国内镜像-CSDN博客</a></li><li>等一等。有时候你只需要等一等（比如我吃了个午饭后，hexo d就正常上传了）</li><li>在stackoverflow上看到一个集大成的回答</li></ol><figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">npm config rm proxy #这个似乎是移除了npm的一些代理设置，因为npm原先有些奇奇怪怪的代理设置</span><br><span class="line">npm config rm https-proxy</span><br><span class="line">npm config <span class="built_in">set</span> https-proxy https://username:password@proxy.company.com:<span class="number">6050</span></span><br><span class="line">npm config <span class="built_in">set</span> proxy http://username:password@proxy.company.com:<span class="number">6050</span></span><br><span class="line">npm config <span class="built_in">set</span> registry http://registry.npmjs.org/</span><br></pre></td></tr></table></figure><p>最终我通过换源+”npm config rm proxy”成功弄通了npm install</p><h2 id="写博客"><a href="#写博客" class="headerlink" title="写博客"></a>写博客</h2><p>在git bash中输入”hexo new &lt;文件名&gt;”后，会自动创建一个.md文件，编辑这个文件后g、s、d就可以了</p>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Test</title>
+      <link href="/2024/07/23/Test/"/>
+      <url>/2024/07/23/Test/</url>
+      
+        <content type="html"><![CDATA[<p>this is a test</p><p>Network recovered after some time, test succeeds!</p>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>WHAT</title>
+      <link href="/2024/07/23/WHAT/"/>
+      <url>/2024/07/23/WHAT/</url>
+      
+        <content type="html"><![CDATA[<h1 id="testing-typora"><a href="#testing-typora" class="headerlink" title="testing typora"></a>testing typora</h1><h2 id="中标题"><a href="#中标题" class="headerlink" title="中标题"></a>中标题</h2><h3 id="小标题"><a href="#小标题" class="headerlink" title="小标题"></a>小标题</h3><h4 id="小小标题"><a href="#小小标题" class="headerlink" title="小小标题"></a>小小标题</h4><h5 id="小小小标题"><a href="#小小小标题" class="headerlink" title="小小小标题"></a>小小小标题</h5><p><strong>加粗</strong></p><p><em>斜体</em></p><ol><li>有序标</li></ol><ul><li>无序标</li></ul><blockquote><p>注释</p></blockquote><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;一点代码&gt;</span></span></span><br><span class="line"><span class="type">int</span> <span class="title function_">mian</span> <span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> o</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>&#x3D;&#x3D;高亮&#x3D;&#x3D;（或许我该考虑另一个版本的typora(有更多高亮)）</p><p><del>删除线</del></p><p>log<del>2</del>10^2^</p><p><u>下划线</u></p><p><u>另一个下划线</u></p><!----><!--注释？-->]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Hello World</title>
+      <link href="/2024/07/23/Hello-World/"/>
+      <url>/2024/07/23/Hello-World/</url>
+      
+        <content type="html"><![CDATA[<p>Hello World,finally</p>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+  
+  
+</search>
