@@ -4,6 +4,112 @@
   
     
     <entry>
+      <title>数学建模基础算法</title>
+      <link href="/2025/02/01/MCM/"/>
+      <url>/2025/02/01/MCM/</url>
+      
+        <content type="html"><![CDATA[<h1 id="求最优解（可解释算法）"><a href="#求最优解（可解释算法）" class="headerlink" title="求最优解（可解释算法）"></a>求最优解（可解释算法）</h1><h2 id="线性规划"><a href="#线性规划" class="headerlink" title="线性规划"></a>线性规划</h2><h2 id="蒙特卡洛法"><a href="#蒙特卡洛法" class="headerlink" title="蒙特卡洛法"></a>蒙特卡洛法</h2><p><strong>实验概率模拟</strong>：如随机抽样、采点估计圆周率</p><h2 id="非线性规划"><a href="#非线性规划" class="headerlink" title="非线性规划"></a>非线性规划</h2><ul><li>待求函数存在二次及以上的变量，求最优解</li><li>待求函数仍然只有一个</li></ul><p><strong>解决方法</strong>： 有相关的求解函数</p><h2 id="多目标规划"><a href="#多目标规划" class="headerlink" title="多目标规划"></a>多目标规划</h2><p><strong>存在多个“尽可能”要求</strong></p><p>解决方法：</p><ul><li>照常列出约束条件</li><li>对于“尽可能”的目标约束，规定正、负偏差变量，将不等式条件转化为偏差变量最小和等式条件求解</li></ul><h1 id="评价类算法"><a href="#评价类算法" class="headerlink" title="评价类算法"></a>评价类算法</h1><h2 id="层次分析法"><a href="#层次分析法" class="headerlink" title="层次分析法"></a>层次分析法</h2><p><strong>在给出的方案中，根据一定的准则，计算评价，得出目标</strong></p><p>建模过程：</p><ol><li>数据处理：对于表示方式不同、效益与成本类型不同、数量级不同的属性，进行归一化。因为最后加权求和得到评价，所以一般使用线性方法归一化。</li><li>权重赋予：需要对不同属性赋予不同权重，突出不同重要性。使用判断矩阵确定权重，需要通过一致性检验，然后按列归一化，按行求和平均得到权重</li></ol><p>特点：</p><ol><li>方案必须明确，一般从题目中分析得出</li><li>方法简单明了，可处理复杂系统</li><li>权重具有主观性，可能影响结果</li></ol><h2 id="TOPSIS法"><a href="#TOPSIS法" class="headerlink" title="TOPSIS法"></a>TOPSIS法</h2><p><strong>依据当前方案，构造正理想解和负理想解，综合方案和正、负理想解之间的距离，给出评价</strong></p><p><strong>建模过程：</strong></p><ol><li><p>数据处理：</p><p>判断属性类型：</p><blockquote><p>效益型属性 不需要处理</p><p>成本型属性，求正理想解时取其最小值，求负理想解时求其最大值。</p><p>区间型属性，根据数据与最优区间的差异进行处理。设置最优属性区间和无法容忍上下限，将属性转化为[0,1]之间的值</p></blockquote><p>向量规范化：统一数据的属性后，进行向量规范化。由于最后模型要计算距离，此处规范化的变换采用几何归一化（平方）</p><p>加权处理：查文献、资料，直接加权重</p></li><li><p>求解结果：</p><ul><li>求正、负理想解</li><li>求各个解到理想解的距离</li><li>综合两种距离得综合评价指数</li></ul></li></ol><p><strong>特点：</strong></p><ol><li>适于客观评价类题目，数据量大而充足，准则明确</li><li>充分利用了题目数据</li></ol><h2 id="熵权法"><a href="#熵权法" class="headerlink" title="熵权法"></a>熵权法</h2><p>对各个属性求熵值（范围从0到1），熵值接近1，混乱程度低，计算总评价时可给该指标赋予低权重</p><blockquote><p>此处低熵值代表各个方案的该属性得分相近，该属性对总评价的影响较小</p></blockquote><p><strong>适用</strong>：</p><ul><li>数据全面，但是缺少文献或主观准则、评价的题目</li></ul><p><strong>特点</strong>：</p><ul><li>完全客观，公平公正，不受主观因素影响</li><li>只考虑了数据，难以将数据之外的因素考虑进去</li></ul><h1 id="预测类算法"><a href="#预测类算法" class="headerlink" title="预测类算法"></a>预测类算法</h1><h2 id="GM-1-1-灰色预测"><a href="#GM-1-1-灰色预测" class="headerlink" title="GM(1,1)  灰色预测"></a>GM(1,1)  灰色预测</h2><p>GM(1,1)中的两个1分别代表一元变量和一阶微分。灰色预测通过数据处理突出已知数据的规律，然后对处理后的数据建立一元一阶微分方程，微分方程的解可以预测处理后的数据，对预测值进行反向数据处理可得到原数据的预测值</p><p>建模过程：</p><ol><li>判断模型是否使用：对原数据进行一个xx检验</li><li>累加法：新数据序列在 t 处的值 &#x3D; 原数据序列 1~t 处的值之和。虽然应该有其他的数据处理方法，但此处为了后面求解微分方程，似乎只能使用累加法</li><li>新数据序列一般形如指数函数，我们建立微分方程，形如：dx^(1)^ &#x2F; dt + a*x^(1)^ &#x3D; u</li><li>由于微分方程中a，u未知，我们需要先求解这两个常数。将一阶导数转换为原数据序列，然后利用最小二乘法即可求出a，u。注意此处为进一步削弱数据随机性，对x^(1)^再做均值处理。</li><li>求解出a，u后，带入求解微分方程</li><li>进行残差检验，判断模型拟合程度</li></ol><p>适用题目：</p><ol><li>数据量少，看不出明显规律</li><li>预测近期数据</li><li>通过了灰色预测模型适用检测</li></ol><h2 id="传染病模型"><a href="#传染病模型" class="headerlink" title="传染病模型"></a>传染病模型</h2><p>几个不断完善的传染病预测模型</p><h3 id="指数传播"><a href="#指数传播" class="headerlink" title="指数传播"></a>指数传播</h3><p><strong>模型假设</strong>：感染者人数为N( t )，随时间连续变化、可微。不考虑出生死亡、迁入迁出，不考虑治愈和免疫。感染者单位时间平均传染人数为$\lambda$</p><p><strong>模型列方程求解</strong>：（指数增长）</p><h3 id="SI"><a href="#SI" class="headerlink" title="SI"></a>SI</h3><p><strong>模型假设</strong>：在指数传播的基础上，设易感者比例为S，感染者比率为I，感染者单位时间平均接触人数为$\lambda$.</p><p><strong>模型求解</strong>：（S型增长，在I值为50%时，感染者数量增长率一定最大）</p><h3 id="SIS"><a href="#SIS" class="headerlink" title="SIS"></a>SIS</h3><p><strong>模型假设</strong>：在SI的基础上，假设每天被治愈的病人占病人总数比率为$\mu$，不考虑免疫</p><h3 id="SIR"><a href="#SIR" class="headerlink" title="SIR"></a>SIR</h3><p><strong>模型假设</strong>：在SI的基础上，假设被治愈的病人有免疫力，设其为被移除人群，占人群总数的比率为R，R的初始值显然为0</p><h3 id="SEIR"><a href="#SEIR" class="headerlink" title="SEIR"></a>SEIR</h3><p><strong>模型假设</strong>：在SIR的基础上，考虑潜伏期</p><h3 id="该类模型的求解："><a href="#该类模型的求解：" class="headerlink" title="该类模型的求解："></a>该类模型的求解：</h3><p>matlab内置微分方程组数值求解器ode45</p><h2 id="马尔可夫预测"><a href="#马尔可夫预测" class="headerlink" title="马尔可夫预测"></a>马尔可夫预测</h2><p>未来值的预测仅与当前值有关，与历史值均无关</p><p>建模过程：</p><ol><li>计算一步转移概率：根据理论推导、历史值或文献查找来确定各个状态的一步转移概率，得到一个矩阵</li><li>计算初始化概率：根据类似方法确定初始化概率。注意：初始化概率不可以简单照搬一步转移概率</li><li>求解下一步出现某状态的概率，或者n步以后的状态概率分布：n步以后使用初始化概率向量乘以概率矩阵的n次方即可求得</li></ol><p>时齐性：对于任意情况（时间等）下的状态 i ，其转移到状态 j 的概率都是一样的。往往与有周期性的数据有关</p><p>适用情况：</p><ol><li>未来值仅与当前值有关的预测，并且未来值随机</li><li>状态数有限且离散，仅需要预测状态出现的概率</li><li>对于未明确说明有限，但是显然不会太多的状态数，可以假设限制其在一定范围</li></ol><h1 id="启发式算法"><a href="#启发式算法" class="headerlink" title="启发式算法"></a>启发式算法</h1><h2 id="模拟退火"><a href="#模拟退火" class="headerlink" title="模拟退火"></a>模拟退火</h2><p><strong>适用题型</strong>：</p><ul><li>规划类问题求最优解，在各种组合中寻优</li><li>往往方案过多且传统方法只能遍历，时间复杂度过高</li></ul><p><strong>求解过程</strong>：</p><ol><li>确定初始值，可使用蒙特卡洛法等随机一个较优解法</li><li>设置初始温度$T_{0}$，降温系数$\alpha$，温度下限$e$。在while循环中温度不断降低，每次新的温度是之前的$\alpha$倍；当温度低于$e$时终止循环。</li><li>while循环内嵌套for循环，实现固定温度下的马尔科夫过程（根据当前解和一定的随机算法求出一个新解）</li><li>每次求得新解后，依据公式求出接受新解的概率：$P &#x3D; \begin{cases} 1, &amp; \Delta f &lt; 0, \ \exp(-\Delta f &#x2F; T_i), &amp; \Delta f \geq 0.<br>\end{cases}$​</li></ol><p><strong>退火算法根据当前解求出新解，随着温度下降，接受较差解的概率降低，当温度下降足够慢足够低，随机解足够多，算法收敛于最优解。优势在于防止陷入局部最优</strong></p><h2 id="粒子群算法"><a href="#粒子群算法" class="headerlink" title="粒子群算法"></a>粒子群算法</h2><p><strong>适用题型</strong>：</p><ul><li>高维度复杂函数的优化求解，此时可以替代fmincon求解非线性方程组</li><li>神经网络等模型的初始值优化</li></ul><p><strong>优缺点</strong>：</p><ul><li>优点：收敛快，易实现</li><li>缺点：局部搜索能力弱，需要合理调整参数$w,c_{1},c_{2}$</li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> 数学建模 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 数学建模 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Linear Classifier</title>
+      <link href="/2025/02/01/Linear-Classifier/"/>
+      <url>/2025/02/01/Linear-Classifier/</url>
+      
+        <content type="html"><![CDATA[<h2 id="Linear-Classifier"><a href="#Linear-Classifier" class="headerlink" title="Linear Classifier"></a>Linear Classifier</h2><h3 id="algebraic-viewpoint"><a href="#algebraic-viewpoint" class="headerlink" title="algebraic viewpoint"></a>algebraic viewpoint</h3><p>代数公式：</p><ul><li>$f(x, W) &#x3D; Wx + b$ </li><li>$f(x, W) &#x3D; [W, b]*[x; 1]$</li></ul><h3 id="visual-viewpoint"><a href="#visual-viewpoint" class="headerlink" title="visual viewpoint"></a>visual viewpoint</h3><p>将权重W的行向量卷为像素的形式，每行权重理解为一个识别的模式，与原图像点积。当原图像向量与权重向量同向时，点积的结果才会最大，代表原图像与权重只相差一个系数。</p><p><img src="C:\Users\cirmatic\AppData\Roaming\Typora\typora-user-images\image-20250201091540087.png" alt="image-20250201091540087"></p><h3 id="geomatric-viewpoint"><a href="#geomatric-viewpoint" class="headerlink" title="geomatric viewpoint"></a>geomatric viewpoint</h3><p>每个超平面将高维空间各自分割为两部分。一部分区域是该超平面代表的对象，另一部分区域不是 超平面表示的对象</p><h2 id="Loss-Function"><a href="#Loss-Function" class="headerlink" title="Loss Function"></a>Loss Function</h2><p>抽象形式：$L &#x3D; \frac{1}{N}\sum_{i}L_i(f(x_i, W), y_i)$</p><h3 id="Multiclass-SVM-Loss"><a href="#Multiclass-SVM-Loss" class="headerlink" title="Multiclass SVM Loss"></a>Multiclass SVM Loss</h3><p>训练数据 $i$ 的损失函数：$L_i &#x3D; \sum_{j \neq y_i} max(0, s_j - s_{y_i} + 1)$ </p><p>其中 $j$ 遍历所有的label，$y_{i}$为correct label。</p><p>$L_i$计算所有其它label得分与correct label得分的差，加上偏移量1后与0取最大值。</p><p>直观上理解，当其它label得分均比correct label低至少1分时，损失函数值才为0。应该是为了拉开错误答案和正确答案之间得分的差距</p><h3 id="Cross-Entrophy"><a href="#Cross-Entrophy" class="headerlink" title="Cross-Entrophy"></a>Cross-Entrophy</h3><p>训练数据 $i$ 的损失函数：$L_i &#x3D; -log(\frac{e^{s_k}} {\sum_{j} e^{s_j}})$</p><p>其中softmax函数 $P(Y&#x3D;k|X&#x3D;x_i)&#x3D;\frac{e^{s_k}}{\sum_{j}e^{s_j}}$完成了score的非标准概率化（变为正数）和标准化（映射到[0, 1]）两个过程。</p><p>交叉熵损失仅对正确label的概率值取负对数。直观上理解，当概率值接近1，交叉熵损失接近0，模型训练得好；反之则交叉熵损失接近正无穷。</p><p>取负对数是极大似然估计的结果，需要更进一步的数学理解</p><h2 id="Regularization"><a href="#Regularization" class="headerlink" title="Regularization"></a>Regularization</h2><p>$L &#x3D; \frac{1}{N}\sum_{i}L_i(f(x_i, W), y_i) + \lambda R(W)$​</p><p>一些简单例子：</p><ul><li>$R(W) &#x3D; \sum_{k}\sum_{l}W^{2}_{k,l}$</li><li>$R(W) &#x3D; \sum_{k}\sum_{l}|W_{k,l}|$</li><li>$R(W) &#x3D; \sum_{k}\sum_{l} \beta W^{2}<em>{k,l}+ |W</em>{k,l}|$</li></ul><p><strong>purpose</strong>：</p><ul><li>可以在模型中添加“最小化训练误差”无法加入的人为偏好</li><li>避免过拟合</li><li>增加曲率，有利于采用梯度下降优化</li></ul><h3 id="express-preference"><a href="#express-preference" class="headerlink" title="express preference"></a>express preference</h3><p>如果两个权重在计算得分时结果相同，可以用正则化对其进行选择</p><h3 id="prefer-simpler-models"><a href="#prefer-simpler-models" class="headerlink" title="prefer simpler models"></a>prefer simpler models</h3><p>防止过拟合，避免产生复杂模型</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 深度学习 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 深度学习 </tag>
+            
+            <tag> 计算机视觉 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Intro</title>
+      <link href="/2025/02/01/Intro/"/>
+      <url>/2025/02/01/Intro/</url>
+      
+        <content type="html"><![CDATA[<h2 id="计算机视觉简史"><a href="#计算机视觉简史" class="headerlink" title="计算机视觉简史"></a>计算机视觉简史</h2><h3 id="CV简史"><a href="#CV简史" class="headerlink" title="CV简史"></a>CV简史</h3><ul><li><p>1959, Hubel and WieseL 用电极检测猫在看到图片时大脑神经元的活动</p></li><li><p>1963, Larry Robert 世界第一篇计算机视觉博士论文，但是职业生涯最低谷</p></li><li><p>1966, MIT夏季计算机视觉计划。<em>和好兄弟一起在一个夏天完成几十年后都完成不了的任务</em></p></li><li><p>1970s, recognition via parts 将目标分解为几个部分（线、圆、拓扑结构）进行识别</p></li><li><p>1980s, recognition via edge detection</p></li><li><p>1990s, recognition via grouping: segment image</p></li><li><p>2000s, recognition via matching 将图像模式编码为向量，向量在计算上有某种不变性。在另一幅图中，即使背景有变化，可以利用这种不变性匹配该模型。比如从图a中正视角单词stop匹配图b中斜视角单词stop</p><p>face detection: Viola Jones algorithm</p></li><li><p>2012, AlexNet, Deep Learning goes into cv 横扫</p></li></ul><h3 id="深度学习简史"><a href="#深度学习简史" class="headerlink" title="深度学习简史"></a>深度学习简史</h3><ul><li>1957, perceptron 单层感知机可以拟合一些简单的线性函数（与或逻辑）。多层感知机理论上可以拟合任意函数</li><li>1980,  neocognitron. 由interleaved simple cells 和 comlex cells组成，形式上已经类似于卷积网络。但没有合适的训练算法</li><li>1986, backpropagation 反向传播算法。成功训练多层感知机</li><li>1998， Convolutional Net最初提出</li><li>2000s, deep learning 逐渐兴起</li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> 深度学习 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 深度学习 </tag>
+            
+            <tag> 计算机视觉 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Image Classification</title>
+      <link href="/2025/02/01/Image-Classification/"/>
+      <url>/2025/02/01/Image-Classification/</url>
+      
+        <content type="html"><![CDATA[<h2 id="Image-Classification"><a href="#Image-Classification" class="headerlink" title="Image Classification"></a>Image Classification</h2><h3 id="problem-semantic-gap-语义鸿沟"><a href="#problem-semantic-gap-语义鸿沟" class="headerlink" title="problem: semantic gap 语义鸿沟"></a>problem: semantic gap 语义鸿沟</h3><p>难以将计算机从图像中提取的特征与实际物体联系</p><p><strong>challege</strong></p><ol><li>viewpoint variation 观察角度导致图像不同</li><li>intraclass variation 同类物体之间存在区别</li><li>fine-grained categories 识别相近的不同类物体</li><li>background clutter 背景混乱干扰</li><li>illumination changes 照明干扰</li><li>deformation 物体变形</li><li>occlusion 遮挡</li></ol><h3 id="Image-Classification-Datasets-常见数据集"><a href="#Image-Classification-Datasets-常见数据集" class="headerlink" title="Image Classification Datasets 常见数据集"></a>Image Classification Datasets 常见数据集</h3><ul><li>MNIST</li><li>CIFAR10</li><li>CIFAR100</li><li>ImageNet</li><li>MIT Places</li><li>Omniglot</li></ul><h3 id="K最邻近算法"><a href="#K最邻近算法" class="headerlink" title="K最邻近算法"></a>K最邻近算法</h3><p><strong>训练时记录所有训练数据为样本点，测试时计算测试数据与样本点之间的距离，根据最近的K个样本点给出输出label</strong></p><p><strong>复杂度</strong>：</p><ol><li>训练时：O(1)。训练时只需构建指向训练数据的指针</li><li>测试时：O(N)。需要遍历训练数据，与测试点比较</li></ol><p><strong>优化</strong>：K等于n&gt;1</p><ul><li>边界更平滑</li><li>减少噪音影响</li><li>可能使得一些区域无法判断属于什么label</li></ul><p><strong>hyperparameter 超参数的选择</strong>：</p><p>超参数包括 distance metric 和 K</p><p>两种dm：</p><ul><li>$d_1(I_1, I_2) &#x3D; \sum_p|I_1^p - I_2^p|$</li><li>$d_2(I_1, I_2) &#x3D; \sqrt{\sum_p(I_1^p - I_2^p)^2}$​</li></ul><p><img src="C:\Users\cirmatic\AppData\Roaming\Typora\typora-user-images\image-20250131102309178.png" alt="image-20250131102309178"></p><p><u>超参数一般不能从训练中获得，需要手动设置</u>：</p><ol><li><p>选择在整个数据集上表现最好的K——Bad 因为K&#x3D;1时算法永远在数据集上永远正确率100%</p></li><li><p>数据集分为train 和 test，选择在test上表现最好的K—— Bad 因为只针对test优化，不清楚算法在新数据上效果如何</p></li><li><p>数据集分为train validation 和 test，选择在val上表现最好的K，并只在test上测试一次来检验算法性能——better 优化算法的同时能从test上得到比较客观的算法性能评估。（但是实践中如果test准确率很低，只能恭喜你白干了）</p></li><li><p>Cross-Validation 将数据分成n份folds和1份test。依次将fold作为validation，然后结果取平均——对小数据集很有用，但是很耗算力，总的来说不常用</p><p><img src="C:\Users\cirmatic\AppData\Roaming\Typora\typora-user-images\image-20250131111208685.png" alt="image-20250131111208685"></p></li></ol><p><strong>K最邻近算法的应用</strong>：</p><p>少用于原始像素计算：</p><ol><li>维度灾难。在相同覆盖密度之下，针对高维数据的训练所需要的数据呈指数级增长</li><li>test速度非常慢，O(N)级别。</li><li>像素间的距离没有什么实际语义（几个人类看起来差别不大的图片，算法可能认为距离很不同）</li></ol><p>使用特征向量进行距离计算，效果很好。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 深度学习 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 深度学习 </tag>
+            
+            <tag> 计算机视觉 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>CO_p0</title>
       <link href="/2024/09/30/CO_p0/"/>
       <url>/2024/09/30/CO_p0/</url>
