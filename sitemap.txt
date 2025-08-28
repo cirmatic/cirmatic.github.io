@@ -1,3 +1,4 @@
+http://example.com/2025/08/28/OO-Unit1/
 http://example.com/2025/02/01/MCM/
 http://example.com/2025/02/01/Linear-Classifier/
 http://example.com/2025/02/01/Intro/
@@ -14,5 +15,7 @@ http://example.com/
 http://example.com/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/
 http://example.com/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/
 http://example.com/tags/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/
+http://example.com/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/
 http://example.com/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/
 http://example.com/categories/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/
+http://example.com/categories/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/
