@@ -1,31 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>http://example.com/2025/08/28/OO-Unit1/</loc>
-    <lastmod>2025-08-28</lastmod>
+    <loc>https://cirmatic.github.io/2026/01/11/compiler-finalexam/</loc>
+    <lastmod>2026-01-11</lastmod>
   </url>
   <url>
-    <loc>http://example.com/2025/02/01/MCM/</loc>
+    <loc>https://cirmatic.github.io/2025/08/29/OO-Unit4/</loc>
+    <lastmod>2025-08-29</lastmod>
+  </url>
+  <url>
+    <loc>https://cirmatic.github.io/2025/08/29/OO-Unit3/</loc>
+    <lastmod>2025-08-29</lastmod>
+  </url>
+  <url>
+    <loc>https://cirmatic.github.io/2025/08/28/OO-Unit2/</loc>
+    <lastmod>2025-08-29</lastmod>
+  </url>
+  <url>
+    <loc>https://cirmatic.github.io/2025/08/28/OO-Unit1/</loc>
+    <lastmod>2025-08-29</lastmod>
+  </url>
+  <url>
+    <loc>https://cirmatic.github.io/2025/02/01/MCM/</loc>
     <lastmod>2025-02-01</lastmod>
   </url>
   <url>
-    <loc>http://example.com/2025/02/01/Linear-Classifier/</loc>
+    <loc>https://cirmatic.github.io/2025/02/01/Linear-Classifier/</loc>
     <lastmod>2025-02-01</lastmod>
   </url>
   <url>
-    <loc>http://example.com/2025/02/01/Intro/</loc>
+    <loc>https://cirmatic.github.io/2025/02/01/Intro/</loc>
     <lastmod>2025-02-01</lastmod>
   </url>
   <url>
-    <loc>http://example.com/2025/02/01/Image-Classification/</loc>
+    <loc>https://cirmatic.github.io/2025/02/01/Image-Classification/</loc>
     <lastmod>2025-02-01</lastmod>
   </url>
   <url>
-    <loc>http://example.com/2024/09/30/CO_p0/</loc>
+    <loc>https://cirmatic.github.io/2024/09/30/CO_p0/</loc>
     <lastmod>2025-01-20</lastmod>
   </url>
   <url>
-    <loc>http://example.com/2024/08/11/blog-create/</loc>
+    <loc>https://cirmatic.github.io/2024/08/11/blog-create/</loc>
     <lastmod>2025-01-19</lastmod>
   </url>
 </urlset> 

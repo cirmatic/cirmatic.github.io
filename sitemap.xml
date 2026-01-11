@@ -2,16 +2,52 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://example.com/2025/08/28/OO-Unit1/</loc>
+    <loc>https://cirmatic.github.io/2026/01/11/compiler-finalexam/</loc>
     
-    <lastmod>2025-08-28</lastmod>
+    <lastmod>2026-01-11</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>http://example.com/2025/02/01/MCM/</loc>
+    <loc>https://cirmatic.github.io/2025/08/29/OO-Unit4/</loc>
+    
+    <lastmod>2025-08-29</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://cirmatic.github.io/2025/08/29/OO-Unit3/</loc>
+    
+    <lastmod>2025-08-29</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://cirmatic.github.io/2025/08/28/OO-Unit2/</loc>
+    
+    <lastmod>2025-08-29</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://cirmatic.github.io/2025/08/28/OO-Unit1/</loc>
+    
+    <lastmod>2025-08-29</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://cirmatic.github.io/2025/02/01/MCM/</loc>
     
     <lastmod>2025-02-01</lastmod>
     
@@ -20,7 +56,7 @@
   </url>
   
   <url>
-    <loc>http://example.com/2025/02/01/Linear-Classifier/</loc>
+    <loc>https://cirmatic.github.io/2025/02/01/Linear-Classifier/</loc>
     
     <lastmod>2025-02-01</lastmod>
     
@@ -29,7 +65,7 @@
   </url>
   
   <url>
-    <loc>http://example.com/2025/02/01/Intro/</loc>
+    <loc>https://cirmatic.github.io/2025/02/01/Intro/</loc>
     
     <lastmod>2025-02-01</lastmod>
     
@@ -38,7 +74,7 @@
   </url>
   
   <url>
-    <loc>http://example.com/categories/index.html</loc>
+    <loc>https://cirmatic.github.io/categories/index.html</loc>
     
     <lastmod>2025-02-01</lastmod>
     
@@ -47,7 +83,7 @@
   </url>
   
   <url>
-    <loc>http://example.com/2025/02/01/Image-Classification/</loc>
+    <loc>https://cirmatic.github.io/2025/02/01/Image-Classification/</loc>
     
     <lastmod>2025-02-01</lastmod>
     
@@ -56,7 +92,7 @@
   </url>
   
   <url>
-    <loc>http://example.com/2024/09/30/CO_p0/</loc>
+    <loc>https://cirmatic.github.io/2024/09/30/CO_p0/</loc>
     
     <lastmod>2025-01-20</lastmod>
     
@@ -65,7 +101,7 @@
   </url>
   
   <url>
-    <loc>http://example.com/2024/08/11/blog-create/</loc>
+    <loc>https://cirmatic.github.io/2024/08/11/blog-create/</loc>
     
     <lastmod>2025-01-19</lastmod>
     
@@ -74,7 +110,7 @@
   </url>
   
   <url>
-    <loc>http://example.com/tags/index.html</loc>
+    <loc>https://cirmatic.github.io/tags/index.html</loc>
     
     <lastmod>2025-01-18</lastmod>
     
@@ -83,7 +119,7 @@
   </url>
   
   <url>
-    <loc>http://example.com/about/index.html</loc>
+    <loc>https://cirmatic.github.io/about/index.html</loc>
     
     <lastmod>2024-08-12</lastmod>
     
@@ -92,7 +128,7 @@
   </url>
   
   <url>
-    <loc>http://example.com/movies/index.html</loc>
+    <loc>https://cirmatic.github.io/movies/index.html</loc>
     
     <lastmod>2024-08-12</lastmod>
     
@@ -101,7 +137,7 @@
   </url>
   
   <url>
-    <loc>http://example.com/link/index.html</loc>
+    <loc>https://cirmatic.github.io/link/index.html</loc>
     
     <lastmod>2024-08-12</lastmod>
     
@@ -110,7 +146,7 @@
   </url>
   
   <url>
-    <loc>http://example.com/music/index.html</loc>
+    <loc>https://cirmatic.github.io/music/index.html</loc>
     
     <lastmod>2024-08-12</lastmod>
     
@@ -120,37 +156,44 @@
   
 
   <url>
-    <loc>http://example.com/</loc>
-    <lastmod>2025-08-28</lastmod>
+    <loc>https://cirmatic.github.io/</loc>
+    <lastmod>2026-01-11</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
 
   
   <url>
-    <loc>http://example.com/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/</loc>
-    <lastmod>2025-08-28</lastmod>
+    <loc>https://cirmatic.github.io/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/</loc>
+    <lastmod>2026-01-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://example.com/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/</loc>
-    <lastmod>2025-08-28</lastmod>
+    <loc>https://cirmatic.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/</loc>
+    <lastmod>2026-01-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://example.com/tags/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/</loc>
-    <lastmod>2025-08-28</lastmod>
+    <loc>https://cirmatic.github.io/tags/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/</loc>
+    <lastmod>2026-01-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://example.com/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/</loc>
-    <lastmod>2025-08-28</lastmod>
+    <loc>https://cirmatic.github.io/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/</loc>
+    <lastmod>2026-01-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://cirmatic.github.io/tags/%E7%BC%96%E8%AF%91%E6%8A%80%E6%9C%AF/</loc>
+    <lastmod>2026-01-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
@@ -158,22 +201,29 @@
 
   
   <url>
-    <loc>http://example.com/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/</loc>
-    <lastmod>2025-08-28</lastmod>
+    <loc>https://cirmatic.github.io/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/</loc>
+    <lastmod>2026-01-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://example.com/categories/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/</loc>
-    <lastmod>2025-08-28</lastmod>
+    <loc>https://cirmatic.github.io/categories/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/</loc>
+    <lastmod>2026-01-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://example.com/categories/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/</loc>
-    <lastmod>2025-08-28</lastmod>
+    <loc>https://cirmatic.github.io/categories/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/</loc>
+    <lastmod>2026-01-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://cirmatic.github.io/categories/%E7%BC%96%E8%AF%91%E6%8A%80%E6%9C%AF/</loc>
+    <lastmod>2026-01-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>

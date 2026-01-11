@@ -3,231 +3,248 @@
   <entry>
     <title>CO_p0</title>
     <url>/2024/09/30/CO_p0/</url>
-    <content><![CDATA[<h1 id="p0课下"><a href="#p0课下" class="headerlink" title="p0课下"></a>p0课下</h1><h2 id="有限状态机思考题"><a href="#有限状态机思考题" class="headerlink" title="有限状态机思考题"></a>有限状态机思考题</h2><h3 id="同步复位与异步复位"><a href="#同步复位与异步复位" class="headerlink" title="同步复位与异步复位"></a>同步复位与异步复位</h3><p>同步复位：当时钟上升沿且复位信号有效时，将寄存器置0</p>
+    <content><![CDATA[<h1 id="p0课下">p0课下</h1>
+<h2 id="有限状态机思考题">有限状态机思考题</h2>
+<h3 id="同步复位与异步复位">同步复位与异步复位</h3>
+<p>同步复位：当时钟上升沿且复位信号有效时，将寄存器置0</p>
 <p>异步复位：当复位信号有效时，寄存器直接置0</p>
 <p><strong>verilog实现</strong></p>
-<p>同步复位：只在always块中添加 if (reset &#x3D;&#x3D; 1) 判断语句</p>
+<p>同步复位：只在always块中添加 if (reset == 1) 判断语句</p>
 <p>异步复位：在always敏感列表中添加reset，同时在always块中添加判断语句</p>
 <p><strong>logisim实现</strong></p>
 <p>同步复位：在register的输入部分使用MUX，通过reset选择正常输入与0（不能利用reset和异步复位接口，因为存在延迟，可能产生毛刺）</p>
 <p>或者使用与门，对~reset和正常输入做与运算</p>
 <p>异步复位：直接连接register的复位接口</p>
-<h3 id="logisim赋初值"><a href="#logisim赋初值" class="headerlink" title="logisim赋初值"></a>logisim赋初值</h3><p>使用MUX，如果register输出为0（默认情况），则选择初值，否则选择其它（缺点：可能使得register滞后一个周期）</p>
-<h2 id="logisim导航"><a href="#logisim导航" class="headerlink" title="logisim导航"></a>logisim导航</h2><p><strong>状态转移</strong></p>
+<h3 id="logisim赋初值">logisim赋初值</h3>
+<p>使用MUX，如果register输出为0（默认情况），则选择初值，否则选择其它（缺点：可能使得register滞后一个周期）</p>
+<h2 id="logisim导航">logisim导航</h2>
+<p><strong>状态转移</strong></p>
 <p>编码：11 100</p>
-<p>​            01 10</p>
-<p>​            00</p>
+<p>​ 01 10</p>
+<p>​ 00</p>
 <p>到达B点：100</p>
 <table>
 <thead>
-<tr>
+<tr class="header">
 <th>状态</th>
 <th>输入</th>
 <th>新状态</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr class="odd">
 <td>00</td>
 <td>00</td>
 <td>01</td>
 </tr>
-<tr>
+<tr class="even">
 <td>00</td>
 <td>其它</td>
 <td>00，撞墙</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>01</td>
 <td>00</td>
 <td>11</td>
 </tr>
-<tr>
+<tr class="even">
 <td>01</td>
 <td>01</td>
 <td>10</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>01</td>
 <td>10</td>
 <td>00</td>
 </tr>
-<tr>
+<tr class="even">
 <td>01</td>
 <td>其它</td>
 <td>01，撞墙</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>10</td>
 <td>00</td>
 <td>100，到达</td>
 </tr>
-<tr>
+<tr class="even">
 <td>10</td>
 <td>11</td>
 <td>01</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>10</td>
 <td>其它</td>
 <td>10，撞墙</td>
 </tr>
-<tr>
+<tr class="even">
 <td>11</td>
 <td>10</td>
 <td>01</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>11</td>
 <td>01</td>
 <td>100，到达</td>
 </tr>
-<tr>
+<tr class="even">
 <td>11</td>
 <td>其它</td>
 <td>11，撞墙</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>100</td>
 <td>任何</td>
 <td>00</td>
 </tr>
-</tbody></table>
-<h2 id="logisim正则表达式"><a href="#logisim正则表达式" class="headerlink" title="logisim正则表达式"></a>logisim正则表达式</h2><table>
+</tbody>
+</table>
+<h2 id="logisim正则表达式">logisim正则表达式</h2>
+<table>
 <thead>
-<tr>
+<tr class="header">
 <th>状态</th>
 <th>状态编码</th>
 <th>输入</th>
 <th>新状态</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr class="odd">
 <td>无</td>
 <td>00</td>
 <td>01</td>
 <td>01</td>
 </tr>
-<tr>
+<tr class="even">
 <td>无</td>
 <td>00</td>
 <td>其它</td>
 <td>00</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>b</td>
 <td>01</td>
 <td>00</td>
 <td>10</td>
 </tr>
-<tr>
+<tr class="even">
 <td>b</td>
 <td>01</td>
 <td>01</td>
 <td>01</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>b</td>
 <td>01</td>
 <td>10</td>
 <td>10</td>
 </tr>
-<tr>
+<tr class="even">
 <td>b</td>
 <td>01</td>
 <td>11</td>
 <td>00</td>
 </tr>
-<tr>
-<td>ba&#x2F;bc</td>
+<tr class="odd">
+<td>ba/bc</td>
 <td>10</td>
 <td>00</td>
 <td>11(lit)</td>
 </tr>
-<tr>
-<td>ba&#x2F;bc</td>
+<tr class="even">
+<td>ba/bc</td>
 <td>10</td>
 <td>01</td>
 <td>01</td>
 </tr>
-<tr>
-<td>ba&#x2F;bc</td>
+<tr class="odd">
+<td>ba/bc</td>
 <td>10</td>
 <td>10</td>
 <td>11(lit)</td>
 </tr>
-<tr>
-<td>ba&#x2F;bc</td>
+<tr class="even">
+<td>ba/bc</td>
 <td>10</td>
 <td>11</td>
 <td>00</td>
 </tr>
-<tr>
-<td>baa&#x2F;bac&#x2F;bca&#x2F;bcc</td>
+<tr class="odd">
+<td>baa/bac/bca/bcc</td>
 <td>11</td>
 <td>01</td>
 <td>01</td>
 </tr>
-<tr>
-<td>baa&#x2F;bac&#x2F;bca&#x2F;bcc</td>
+<tr class="even">
+<td>baa/bac/bca/bcc</td>
 <td>11</td>
 <td>其它</td>
 <td>00</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
 <p>此题为mealy状态机，但是因为在上升沿时，寄存器的数值更新了但输入仍没有变化，可能导致输出（由状态和输入决定）在输入更新之前都处于错误值，即此时的输出由新状态和旧输入计算得出。故而应该在寄存器后加上buffer，调整时间。</p>
-<h1 id="p0课上"><a href="#p0课上" class="headerlink" title="p0课上"></a>p0课上</h1><p>第一次紧张刺激的正式上机！！！题目感觉比去年简单些，谢助教不杀之恩（</p>
+<h1 id="p0课上">p0课上</h1>
+<p>第一次紧张刺激的正式上机！！！题目感觉比去年简单些，谢助教不杀之恩（</p>
 <p>凭借记忆记录一下题目和大概思路</p>
-<h2 id="inverse"><a href="#inverse" class="headerlink" title="inverse"></a>inverse</h2><p><strong>题意</strong>：输入已给定集合（有四个元素）的一个排列，求该排列的逆序数</p>
+<h2 id="inverse">inverse</h2>
+<p><strong>题意</strong>：输入已给定集合（有四个元素）的一个排列，求该排列的逆序数</p>
 <blockquote>
-<p>逆序数：对于一个排列a<del>0</del>a<del>1</del>…a<del>n-1</del>，若a<del>k</del>&gt;a<del>j</del>并且0 &lt;&#x3D; k &lt; j &lt;&#x3D; n-1，则称（a<del>k</del>，a<del>j</del>）是一个逆序对。一个排列的逆序对的总数称为这个排列的逆序数</p>
+<p>逆序数：对于一个排列a<sub>0</sub>a<sub>1</sub>…a<sub>n-1</sub>，若a<sub>k</sub>&gt;a<sub>j</sub>并且0
+&lt;= k &lt; j &lt;=
+n-1，则称（a<sub>k</sub>，a<sub>j</sub>）是一个逆序对。一个排列的逆序对的总数称为这个排列的逆序数</p>
 </blockquote>
 <p><strong>思路</strong>：显然是一个组合逻辑题。由于集合元素给定并且只有四个，本人选择暴力比较。对于一个输入位x，比较x与其右侧的数的大小，若x比某个右侧位的数大，则将一个三位独热编码的相应的位变为1，使用bitadder计算出x可以与右侧数组成多少逆序对。重复三次并将结果相加，得到输出</p>
-<h2 id="poll-king"><a href="#poll-king" class="headerlink" title="poll_king"></a>poll_king</h2><p><del>上机的时候根本没想到题目是什么意思，还是不够卷，给佬gui了</del></p>
+<h2 id="poll_king">poll_king</h2>
+<p><del>上机的时候根本没想到题目是什么意思，还是不够卷，给佬gui了</del></p>
 <p><strong>题意</strong>：用Moore状态机统计两个room的总人数。</p>
 <table>
 <thead>
-<tr>
-<th align="center">输入</th>
-<th align="center">取值</th>
-<th align="center">含义</th>
+<tr class="header">
+<th style="text-align: center;">输入</th>
+<th style="text-align: center;">取值</th>
+<th style="text-align: center;">含义</th>
 </tr>
 </thead>
-<tbody><tr>
-<td align="center">room</td>
-<td align="center">0</td>
-<td align="center">对0号room操作</td>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">room</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">对0号room操作</td>
 </tr>
-<tr>
-<td align="center">room</td>
-<td align="center">1</td>
-<td align="center">对1号room操作</td>
+<tr class="even">
+<td style="text-align: center;">room</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">对1号room操作</td>
 </tr>
-<tr>
-<td align="center">op[1:0]</td>
-<td align="center">00</td>
-<td align="center">不进行操作</td>
+<tr class="odd">
+<td style="text-align: center;">op[1:0]</td>
+<td style="text-align: center;">00</td>
+<td style="text-align: center;">不进行操作</td>
 </tr>
-<tr>
-<td align="center">op[1:0]</td>
-<td align="center">01</td>
-<td align="center">人数加1</td>
+<tr class="even">
+<td style="text-align: center;">op[1:0]</td>
+<td style="text-align: center;">01</td>
+<td style="text-align: center;">人数加1</td>
 </tr>
-<tr>
-<td align="center">op[1:0]</td>
-<td align="center">10</td>
-<td align="center">人数减1</td>
+<tr class="odd">
+<td style="text-align: center;">op[1:0]</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">人数减1</td>
 </tr>
-<tr>
-<td align="center">op[1:0]</td>
-<td align="center">11</td>
-<td align="center">人数清零</td>
+<tr class="even">
+<td style="text-align: center;">op[1:0]</td>
+<td style="text-align: center;">11</td>
+<td style="text-align: center;">人数清零</td>
 </tr>
-<tr>
-<td align="center">num[31:0]</td>
-<td align="center"></td>
-<td align="center">两个room的总人数</td>
+<tr class="odd">
+<td style="text-align: center;">num[31:0]</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">两个room的总人数</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
 <blockquote>
 <p>初始状态人数为0，对一个room操作时，另一个不变，无复位要求</p>
 </blockquote>
@@ -235,110 +252,35 @@
 <blockquote>
 <p>room的效果除了使用MUX实现外，可以直接连接寄存器的en</p>
 </blockquote>
-<h2 id="最长严格单调递增后缀子串"><a href="#最长严格单调递增后缀子串" class="headerlink" title="最长严格单调递增后缀子串"></a>最长严格单调递增后缀子串</h2><p><strong>题意</strong>：串行输入一系列16进制数，使用Moore机输出每周期的最长单调递增后缀子串</p>
+<h2 id="最长严格单调递增后缀子串">最长严格单调递增后缀子串</h2>
+<p><strong>题意</strong>：串行输入一系列16进制数，使用Moore机输出每周期的最长单调递增后缀子串</p>
 <blockquote>
 <p>后缀子串：</p>
-<p>对于一个串a<del>0</del>a<del>1</del>a<del>2</del>…a<del>n-1</del>，其存在n个后缀子串：</p>
-<p>a<del>n-1</del></p>
-<p>a<del>n-2</del>a<del>n-1</del></p>
-<p>a<del>n-3</del>a<del>n-2</del>a<del>n-1</del></p>
+<p>对于一个串a<sub>0</sub>a<sub>1</sub>a<sub>2</sub>…a<sub>n-1</sub>，其存在n个后缀子串：</p>
+<p>a<sub>n-1</sub></p>
+<p>a<sub>n-2</sub>a<sub>n-1</sub></p>
+<p>a<sub>n-3</sub>a<sub>n-2</sub>a<sub>n-1</sub></p>
 <p>……</p>
-<p>a<del>0</del>a<del>1</del>a<del>2</del>…a<del>n-1</del></p>
+<p>a<sub>0</sub>a<sub>1</sub>a<sub>2</sub>…a<sub>n-1</sub></p>
 <p>严格单调递增串：</p>
-<p>对于每个0 &lt;&#x3D; k &lt; j &lt;&#x3D; n-1，满足a<del>k</del>&lt;a<del>j</del></p>
+<p>对于每个0 &lt;= k &lt; j &lt;=
+n-1，满足a<sub>k</sub>&lt;a<sub>j</sub></p>
 </blockquote>
-<p><strong>思路</strong>：重点在于理解号最长严格单调递增后缀子串与状态转移之间的关系。仔细想想可以发现，长度len是否增加，仅仅取决于当前周期的输入是否大于上一个周期的输入。若大于，len++；否则，len&#x3D;1。当然，初始和置0时len&#x3D;0</p>
+<p><strong>思路</strong>：重点在于理解号最长严格单调递增后缀子串与状态转移之间的关系。仔细想想可以发现，长度len是否增加，仅仅取决于当前周期的输入是否大于上一个周期的输入。若大于，len++；否则，len=1。当然，初始和置0时len=0</p>
 <p>所以可以用一个寄存器储存上一周期输入，一个寄存器负责储存len。输入和上个输入比较决定sum是否++</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这次又犯了comparor没有使用unsigned的问题，还好比较容易测出来，不然又得想破头（</p>
-]]></content>
-  </entry>
-  <entry>
-    <title>How to create a blog</title>
-    <url>/2024/08/11/blog-create/</url>
-    <content><![CDATA[<h1 id="小白创建hexo的（艰难）路程"><a href="#小白创建hexo的（艰难）路程" class="headerlink" title="小白创建hexo的（艰难）路程"></a>小白创建hexo的（艰难）路程</h1><h2 id="step-1-下载工具"><a href="#step-1-下载工具" class="headerlink" title="step 1: 下载工具"></a>step 1: 下载工具</h2><p>自行下载git、nodejs</p>
-<p><strong>检查是否下载成功：</strong></p>
-<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">node -v</span><br><span class="line">npm -v (node自带包管理器)</span><br><span class="line">git -v</span><br></pre></td></tr></table></figure>
-
-<p><strong>下载hexo：</strong></p>
-<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">npm install hexo-cli -g</span><br></pre></td></tr></table></figure>
-
-<h2 id="step-2-新建仓库"><a href="#step-2-新建仓库" class="headerlink" title="step 2: 新建仓库"></a>step 2: 新建仓库</h2><ol>
-<li>创建一个github账号（连接不上请用魔法）</li>
-<li>在home页面的左侧点击Create repository或之类的</li>
-<li>Repository name: &lt;用户名&gt;.github.io</li>
-<li>勾选 Public 和 Add a README file</li>
-<li>点击创建仓库</li>
-</ol>
-<h2 id="step-3-生成SSH-Keys"><a href="#step-3-生成SSH-Keys" class="headerlink" title="step 3: 生成SSH Keys"></a>step 3: 生成SSH Keys</h2><p>在git bash中输入如下代码：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ssh-keygen -t  rsa -C &lt;邮箱地址&gt;</span><br></pre></td></tr></table></figure>
-
-<p>接着敲四下键盘</p>
-<p>在路径”C:\Users\cirmatic.ssh”下找到文件”id_rsa.pub”，复制文件中的所有内容</p>
-<p>在github–&gt;settings–&gt;SSH中，新建SSH Keys。Title任意，Key中粘贴刚刚复制的内容，然后点击Add SSH Key</p>
-<p><strong>在git bash中输入以下命令验证是否成功添加：</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ssh -T git@github.com</span><br></pre></td></tr></table></figure>
-
-<p><strong>出现successfully authenticated就成功了（大概）</strong></p>
-<h2 id="step-3-本地部署"><a href="#step-3-本地部署" class="headerlink" title="step 3: 本地部署"></a>step 3: 本地部署</h2><ul>
-<li>创建一个文件夹放置博客文件，如”BlogFile”</li>
-<li>打开git bash并且cd到该文件夹</li>
-<li>输入以下命令</li>
-</ul>
-<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">hexo init #初始化空文件夹</span><br><span class="line">hexo install #下载相关文件</span><br><span class="line">hexo g #生成静态文件</span><br><span class="line">hexo s #本地部署。这将得到一个链接，打开就可看到本地部署的blog</span><br><span class="line">Ctrl ^C #停止本地服务器</span><br></pre></td></tr></table></figure>
-
-<h2 id="step-4-上传博客"><a href="#step-4-上传博客" class="headerlink" title="step 4: 上传博客"></a>step 4: 上传博客</h2><ul>
-<li><p>在github的仓库中，点击Code并复制仓库链接。（它或许长这样：”<a href="https://github.com/">https://github.com/</a>&lt;用户名&gt;&#x2F;&lt;用户名&gt;.github.io”）</p>
-</li>
-<li><p>打开”BlogFile”文件夹中的”_config.yml”文件，将文件末尾deploy:及以后的内容改为以下代码 ：</p>
-</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">deploy:</span><br><span class="line">	type:git</span><br><span class="line">	repository:<span class="string">&quot;https://github.com/&lt;用户名&gt;/&lt;用户名&gt;.github.io&quot;</span> <span class="comment">//此处是复制的仓库链接</span></span><br><span class="line">	branch:main</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>打开git bash并cd到”BlogFile”，输入：</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo g</span><br></pre></td></tr></table></figure>
-
-<p><em>此处可能出现诸如“git未部署”之类的问题（主要是忘记那个报错叫什么了），请下载插件hexo-deployer-git</em></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install hexo-deployer-git</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>上传blog，输入：</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo d</span><br></pre></td></tr></table></figure>
-
-<p><em>第一次使用时，需要设置配置</em></p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">git config --global user.email <span class="string">&quot;your@example.com&quot;</span> <span class="comment">//填入邮箱</span></span><br><span class="line">git config --global user.name <span class="string">&quot;your name&quot;</span> <span class="comment">//填入用户名</span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>配置完成后再次上传：</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo d</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>在弹出的github窗口中登录</li>
-</ul>
-<h2 id="step-5-访问"><a href="#step-5-访问" class="headerlink" title="step 5: 访问"></a>step 5: 访问</h2><p>输入”&lt;用户名&gt;.github.io”访问</p>
-<h2 id="网络问题"><a href="#网络问题" class="headerlink" title="网络问题"></a>网络问题</h2><p><u>在以上步骤中，涉及下载和上传的步骤都可能出现网络问题。这很玄学</u></p>
-<p><strong>可能的解决方法</strong>：</p>
-<ol>
-<li>重新开启&#x2F;关闭梯子</li>
-<li>更换下载的镜像源：<a href="https://blog.csdn.net/qq_43940789/article/details/131449710">国内npm源镜像（npm加速下载） 指定npm镜像_npm 国内镜像-CSDN博客</a></li>
-<li>等一等。有时候你只需要等一等（比如我吃了个午饭后，hexo d就正常上传了）</li>
-<li>在stackoverflow上看到一个集大成的回答</li>
-</ol>
-<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">npm config rm proxy #这个似乎是移除了npm的一些代理设置，因为npm原先有些奇奇怪怪的代理设置</span><br><span class="line">npm config rm https-proxy</span><br><span class="line">npm config <span class="built_in">set</span> https-proxy https://username:password@proxy.company.com:<span class="number">6050</span></span><br><span class="line">npm config <span class="built_in">set</span> proxy http://username:password@proxy.company.com:<span class="number">6050</span></span><br><span class="line">npm config <span class="built_in">set</span> registry http://registry.npmjs.org/</span><br></pre></td></tr></table></figure>
-
-<p>最终我通过换源+”npm config rm proxy”成功弄通了npm install</p>
-<h2 id="写博客"><a href="#写博客" class="headerlink" title="写博客"></a>写博客</h2><p>在git bash中输入”hexo new &lt;文件名&gt;”后，会自动创建一个.md文件，编辑这个文件后g、s、d就可以了</p>
+<h2 id="总结">总结</h2>
+<p>这次又犯了comparor没有使用unsigned的问题，还好比较容易测出来，不然又得想破头（</p>
 ]]></content>
   </entry>
   <entry>
     <title>Image Classification</title>
     <url>/2025/02/01/Image-Classification/</url>
-    <content><![CDATA[<h2 id="Image-Classification"><a href="#Image-Classification" class="headerlink" title="Image Classification"></a>Image Classification</h2><h3 id="problem-semantic-gap-语义鸿沟"><a href="#problem-semantic-gap-语义鸿沟" class="headerlink" title="problem: semantic gap 语义鸿沟"></a>problem: semantic gap 语义鸿沟</h3><p>难以将计算机从图像中提取的特征与实际物体联系</p>
+    <content><![CDATA[<h2 id="image-classification">Image Classification</h2>
+<h3 id="problem-semantic-gap-语义鸿沟">problem: semantic gap
+语义鸿沟</h3>
+<p>难以将计算机从图像中提取的特征与实际物体联系</p>
 <p><strong>challege</strong></p>
-<ol>
+<ol type="1">
 <li>viewpoint variation 观察角度导致图像不同</li>
 <li>intraclass variation 同类物体之间存在区别</li>
 <li>fine-grained categories 识别相近的不同类物体</li>
@@ -347,7 +289,9 @@
 <li>deformation 物体变形</li>
 <li>occlusion 遮挡</li>
 </ol>
-<h3 id="Image-Classification-Datasets-常见数据集"><a href="#Image-Classification-Datasets-常见数据集" class="headerlink" title="Image Classification Datasets 常见数据集"></a>Image Classification Datasets 常见数据集</h3><ul>
+<h3 id="image-classification-datasets-常见数据集">Image Classification
+Datasets 常见数据集</h3>
+<ul>
 <li>MNIST</li>
 <li>CIFAR10</li>
 <li>CIFAR100</li>
@@ -355,9 +299,10 @@
 <li>MIT Places</li>
 <li>Omniglot</li>
 </ul>
-<h3 id="K最邻近算法"><a href="#K最邻近算法" class="headerlink" title="K最邻近算法"></a>K最邻近算法</h3><p><strong>训练时记录所有训练数据为样本点，测试时计算测试数据与样本点之间的距离，根据最近的K个样本点给出输出label</strong></p>
+<h3 id="k最邻近算法">K最邻近算法</h3>
+<p><strong>训练时记录所有训练数据为样本点，测试时计算测试数据与样本点之间的距离，根据最近的K个样本点给出输出label</strong></p>
 <p><strong>复杂度</strong>：</p>
-<ol>
+<ol type="1">
 <li>训练时：O(1)。训练时只需构建指向训练数据的指针</li>
 <li>测试时：O(N)。需要遍历训练数据，与测试点比较</li>
 </ol>
@@ -371,25 +316,33 @@
 <p>超参数包括 distance metric 和 K</p>
 <p>两种dm：</p>
 <ul>
-<li>$d_1(I_1, I_2) &#x3D; \sum_p|I_1^p - I_2^p|$</li>
-<li>$d_2(I_1, I_2) &#x3D; \sqrt{\sum_p(I_1^p - I_2^p)^2}$​</li>
+<li><span class="math inline"><em>d</em><sub>1</sub>(<em>I</em><sub>1</sub>,<em>I</em><sub>2</sub>) = ∑<sub><em>p</em></sub>|<em>I</em><sub>1</sub><sup><em>p</em></sup>−<em>I</em><sub>2</sub><sup><em>p</em></sup>|</span></li>
+<li><span class="math inline">$d_2(I_1, I_2) = \sqrt{\sum_p(I_1^p -
+I_2^p)^2}$</span>​</li>
 </ul>
-<p><img src="C:\Users\cirmatic\AppData\Roaming\Typora\typora-user-images\image-20250131102309178.png" alt="image-20250131102309178"></p>
+<figure>
+<img src="Users\cirmatic\AppData\Roaming\Typora\typora-user-images\image-20250131102309178.png" alt="image-20250131102309178">
+<figcaption aria-hidden="true">image-20250131102309178</figcaption>
+</figure>
 <p><u>超参数一般不能从训练中获得，需要手动设置</u>：</p>
-<ol>
-<li><p>选择在整个数据集上表现最好的K——Bad 因为K&#x3D;1时算法永远在数据集上永远正确率100%</p>
-</li>
-<li><p>数据集分为train 和 test，选择在test上表现最好的K—— Bad 因为只针对test优化，不清楚算法在新数据上效果如何</p>
-</li>
-<li><p>数据集分为train validation 和 test，选择在val上表现最好的K，并只在test上测试一次来检验算法性能——better 优化算法的同时能从test上得到比较客观的算法性能评估。（但是实践中如果test准确率很低，只能恭喜你白干了）</p>
-</li>
-<li><p>Cross-Validation 将数据分成n份folds和1份test。依次将fold作为validation，然后结果取平均——对小数据集很有用，但是很耗算力，总的来说不常用</p>
-<p><img src="C:\Users\cirmatic\AppData\Roaming\Typora\typora-user-images\image-20250131111208685.png" alt="image-20250131111208685"></p>
-</li>
+<ol type="1">
+<li><p>选择在整个数据集上表现最好的K——Bad
+因为K=1时算法永远在数据集上永远正确率100%</p></li>
+<li><p>数据集分为train 和 test，选择在test上表现最好的K—— Bad
+因为只针对test优化，不清楚算法在新数据上效果如何</p></li>
+<li><p>数据集分为train validation 和
+test，选择在val上表现最好的K，并只在test上测试一次来检验算法性能——better
+优化算法的同时能从test上得到比较客观的算法性能评估。（但是实践中如果test准确率很低，只能恭喜你白干了）</p></li>
+<li><p>Cross-Validation
+将数据分成n份folds和1份test。依次将fold作为validation，然后结果取平均——对小数据集很有用，但是很耗算力，总的来说不常用</p>
+<figure>
+<img src="Users\cirmatic\AppData\Roaming\Typora\typora-user-images\image-20250131111208685.png" alt="image-20250131111208685">
+<figcaption aria-hidden="true">image-20250131111208685</figcaption>
+</figure></li>
 </ol>
 <p><strong>K最邻近算法的应用</strong>：</p>
 <p>少用于原始像素计算：</p>
-<ol>
+<ol type="1">
 <li>维度灾难。在相同覆盖密度之下，针对高维数据的训练所需要的数据呈指数级增长</li>
 <li>test速度非常慢，O(N)级别。</li>
 <li>像素间的距离没有什么实际语义（几个人类看起来差别不大的图片，算法可能认为距离很不同）</li>
@@ -407,28 +360,30 @@
   <entry>
     <title>Intro</title>
     <url>/2025/02/01/Intro/</url>
-    <content><![CDATA[<h2 id="计算机视觉简史"><a href="#计算机视觉简史" class="headerlink" title="计算机视觉简史"></a>计算机视觉简史</h2><h3 id="CV简史"><a href="#CV简史" class="headerlink" title="CV简史"></a>CV简史</h3><ul>
-<li><p>1959, Hubel and WieseL 用电极检测猫在看到图片时大脑神经元的活动</p>
-</li>
-<li><p>1963, Larry Robert 世界第一篇计算机视觉博士论文，但是职业生涯最低谷</p>
-</li>
-<li><p>1966, MIT夏季计算机视觉计划。<em>和好兄弟一起在一个夏天完成几十年后都完成不了的任务</em></p>
-</li>
-<li><p>1970s, recognition via parts 将目标分解为几个部分（线、圆、拓扑结构）进行识别</p>
-</li>
-<li><p>1980s, recognition via edge detection</p>
-</li>
-<li><p>1990s, recognition via grouping: segment image</p>
-</li>
-<li><p>2000s, recognition via matching 将图像模式编码为向量，向量在计算上有某种不变性。在另一幅图中，即使背景有变化，可以利用这种不变性匹配该模型。比如从图a中正视角单词stop匹配图b中斜视角单词stop</p>
-<p>face detection: Viola Jones algorithm</p>
-</li>
-<li><p>2012, AlexNet, Deep Learning goes into cv 横扫</p>
-</li>
+    <content><![CDATA[<h2 id="计算机视觉简史">计算机视觉简史</h2>
+<h3 id="cv简史">CV简史</h3>
+<ul>
+<li><p>1959, Hubel and WieseL
+用电极检测猫在看到图片时大脑神经元的活动</p></li>
+<li><p>1963, Larry Robert
+世界第一篇计算机视觉博士论文，但是职业生涯最低谷</p></li>
+<li><p>1966,
+MIT夏季计算机视觉计划。<em>和好兄弟一起在一个夏天完成几十年后都完成不了的任务</em></p></li>
+<li><p>1970s, recognition via parts
+将目标分解为几个部分（线、圆、拓扑结构）进行识别</p></li>
+<li><p>1980s, recognition via edge detection</p></li>
+<li><p>1990s, recognition via grouping: segment image</p></li>
+<li><p>2000s, recognition via matching
+将图像模式编码为向量，向量在计算上有某种不变性。在另一幅图中，即使背景有变化，可以利用这种不变性匹配该模型。比如从图a中正视角单词stop匹配图b中斜视角单词stop</p>
+<p>face detection: Viola Jones algorithm</p></li>
+<li><p>2012, AlexNet, Deep Learning goes into cv 横扫</p></li>
 </ul>
-<h3 id="深度学习简史"><a href="#深度学习简史" class="headerlink" title="深度学习简史"></a>深度学习简史</h3><ul>
-<li>1957, perceptron 单层感知机可以拟合一些简单的线性函数（与或逻辑）。多层感知机理论上可以拟合任意函数</li>
-<li>1980,  neocognitron. 由interleaved simple cells 和 comlex cells组成，形式上已经类似于卷积网络。但没有合适的训练算法</li>
+<h3 id="深度学习简史">深度学习简史</h3>
+<ul>
+<li>1957, perceptron
+单层感知机可以拟合一些简单的线性函数（与或逻辑）。多层感知机理论上可以拟合任意函数</li>
+<li>1980, neocognitron. 由interleaved simple cells 和 comlex
+cells组成，形式上已经类似于卷积网络。但没有合适的训练算法</li>
 <li>1986, backpropagation 反向传播算法。成功训练多层感知机</li>
 <li>1998， Convolutional Net最初提出</li>
 <li>2000s, deep learning 逐渐兴起</li>
@@ -445,29 +400,51 @@
   <entry>
     <title>Linear Classifier</title>
     <url>/2025/02/01/Linear-Classifier/</url>
-    <content><![CDATA[<h2 id="Linear-Classifier"><a href="#Linear-Classifier" class="headerlink" title="Linear Classifier"></a>Linear Classifier</h2><h3 id="algebraic-viewpoint"><a href="#algebraic-viewpoint" class="headerlink" title="algebraic viewpoint"></a>algebraic viewpoint</h3><p>代数公式：</p>
+    <content><![CDATA[<h2 id="linear-classifier">Linear Classifier</h2>
+<h3 id="algebraic-viewpoint">algebraic viewpoint</h3>
+<p>代数公式：</p>
 <ul>
-<li>$f(x, W) &#x3D; Wx + b$ </li>
-<li>$f(x, W) &#x3D; [W, b]*[x; 1]$</li>
+<li><span class="math inline"><em>f</em>(<em>x</em>,<em>W</em>) = <em>W</em><em>x</em> + <em>b</em></span></li>
+<li><span class="math inline"><em>f</em>(<em>x</em>,<em>W</em>) = [<em>W</em>,<em>b</em>] * [<em>x</em>;1]</span></li>
 </ul>
-<h3 id="visual-viewpoint"><a href="#visual-viewpoint" class="headerlink" title="visual viewpoint"></a>visual viewpoint</h3><p>将权重W的行向量卷为像素的形式，每行权重理解为一个识别的模式，与原图像点积。当原图像向量与权重向量同向时，点积的结果才会最大，代表原图像与权重只相差一个系数。</p>
-<p><img src="C:\Users\cirmatic\AppData\Roaming\Typora\typora-user-images\image-20250201091540087.png" alt="image-20250201091540087"></p>
-<h3 id="geomatric-viewpoint"><a href="#geomatric-viewpoint" class="headerlink" title="geomatric viewpoint"></a>geomatric viewpoint</h3><p>每个超平面将高维空间各自分割为两部分。一部分区域是该超平面代表的对象，另一部分区域不是 超平面表示的对象</p>
-<h2 id="Loss-Function"><a href="#Loss-Function" class="headerlink" title="Loss Function"></a>Loss Function</h2><p>抽象形式：$L &#x3D; \frac{1}{N}\sum_{i}L_i(f(x_i, W), y_i)$</p>
-<h3 id="Multiclass-SVM-Loss"><a href="#Multiclass-SVM-Loss" class="headerlink" title="Multiclass SVM Loss"></a>Multiclass SVM Loss</h3><p>训练数据 $i$ 的损失函数：$L_i &#x3D; \sum_{j \neq y_i} max(0, s_j - s_{y_i} + 1)$ </p>
-<p>其中 $j$ 遍历所有的label，$y_{i}$为correct label。</p>
-<p>$L_i$计算所有其它label得分与correct label得分的差，加上偏移量1后与0取最大值。</p>
-<p>直观上理解，当其它label得分均比correct label低至少1分时，损失函数值才为0。应该是为了拉开错误答案和正确答案之间得分的差距</p>
-<h3 id="Cross-Entrophy"><a href="#Cross-Entrophy" class="headerlink" title="Cross-Entrophy"></a>Cross-Entrophy</h3><p>训练数据 $i$ 的损失函数：$L_i &#x3D; -log(\frac{e^{s_k}} {\sum_{j} e^{s_j}})$</p>
-<p>其中softmax函数 $P(Y&#x3D;k|X&#x3D;x_i)&#x3D;\frac{e^{s_k}}{\sum_{j}e^{s_j}}$完成了score的非标准概率化（变为正数）和标准化（映射到[0, 1]）两个过程。</p>
+<h3 id="visual-viewpoint">visual viewpoint</h3>
+<p>将权重W的行向量卷为像素的形式，每行权重理解为一个识别的模式，与原图像点积。当原图像向量与权重向量同向时，点积的结果才会最大，代表原图像与权重只相差一个系数。</p>
+<figure>
+<img src="Users\cirmatic\AppData\Roaming\Typora\typora-user-images\image-20250201091540087.png" alt="image-20250201091540087">
+<figcaption aria-hidden="true">image-20250201091540087</figcaption>
+</figure>
+<h3 id="geomatric-viewpoint">geomatric viewpoint</h3>
+<p>每个超平面将高维空间各自分割为两部分。一部分区域是该超平面代表的对象，另一部分区域不是
+超平面表示的对象</p>
+<h2 id="loss-function">Loss Function</h2>
+<p>抽象形式：<span class="math inline">$L =
+\frac{1}{N}\sum_{i}L_i(f(x_i, W), y_i)$</span></p>
+<h3 id="multiclass-svm-loss">Multiclass SVM Loss</h3>
+<p>训练数据 <span class="math inline"><em>i</em></span>
+的损失函数：<span class="math inline"><em>L</em><sub><em>i</em></sub> = ∑<sub><em>j</em> ≠ <em>y</em><sub><em>i</em></sub></sub><em>m</em><em>a</em><em>x</em>(0,<em>s</em><sub><em>j</em></sub>−<em>s</em><sub><em>y</em><sub><em>i</em></sub></sub>+1)</span></p>
+<p>其中 <span class="math inline"><em>j</em></span>
+遍历所有的label，<span class="math inline"><em>y</em><sub><em>i</em></sub></span>为correct
+label。</p>
+<p><span class="math inline"><em>L</em><sub><em>i</em></sub></span>计算所有其它label得分与correct
+label得分的差，加上偏移量1后与0取最大值。</p>
+<p>直观上理解，当其它label得分均比correct
+label低至少1分时，损失函数值才为0。应该是为了拉开错误答案和正确答案之间得分的差距</p>
+<h3 id="cross-entrophy">Cross-Entrophy</h3>
+<p>训练数据 <span class="math inline"><em>i</em></span>
+的损失函数：<span class="math inline">$L_i = -log(\frac{e^{s_k}}
+{\sum_{j} e^{s_j}})$</span></p>
+<p>其中softmax函数 <span class="math inline">$P(Y=k|X=x_i)=\frac{e^{s_k}}{\sum_{j}e^{s_j}}$</span>完成了score的非标准概率化（变为正数）和标准化（映射到[0,
+1]）两个过程。</p>
 <p>交叉熵损失仅对正确label的概率值取负对数。直观上理解，当概率值接近1，交叉熵损失接近0，模型训练得好；反之则交叉熵损失接近正无穷。</p>
 <p>取负对数是极大似然估计的结果，需要更进一步的数学理解</p>
-<h2 id="Regularization"><a href="#Regularization" class="headerlink" title="Regularization"></a>Regularization</h2><p>$L &#x3D; \frac{1}{N}\sum_{i}L_i(f(x_i, W), y_i) + \lambda R(W)$​</p>
+<h2 id="regularization">Regularization</h2>
+<p><span class="math inline">$L = \frac{1}{N}\sum_{i}L_i(f(x_i, W), y_i)
++ \lambda R(W)$</span>​</p>
 <p>一些简单例子：</p>
 <ul>
-<li>$R(W) &#x3D; \sum_{k}\sum_{l}W^{2}_{k,l}$</li>
-<li>$R(W) &#x3D; \sum_{k}\sum_{l}|W_{k,l}|$</li>
-<li>$R(W) &#x3D; \sum_{k}\sum_{l} \beta W^{2}<em>{k,l}+ |W</em>{k,l}|$</li>
+<li><span class="math inline"><em>R</em>(<em>W</em>) = ∑<sub><em>k</em></sub>∑<sub><em>l</em></sub><em>W</em><sub><em>k</em>, <em>l</em></sub><sup>2</sup></span></li>
+<li><span class="math inline"><em>R</em>(<em>W</em>) = ∑<sub><em>k</em></sub>∑<sub><em>l</em></sub>|<em>W</em><sub><em>k</em>, <em>l</em></sub>|</span></li>
+<li><span class="math inline"><em>R</em>(<em>W</em>) = ∑<sub><em>k</em></sub>∑<sub><em>l</em></sub><em>β</em><em>W</em><sub><em>k</em>, <em>l</em></sub><sup>2</sup> + |<em>W</em><sub><em>k</em>, <em>l</em></sub>|</span></li>
 </ul>
 <p><strong>purpose</strong>：</p>
 <ul>
@@ -475,8 +452,10 @@
 <li>避免过拟合</li>
 <li>增加曲率，有利于采用梯度下降优化</li>
 </ul>
-<h3 id="express-preference"><a href="#express-preference" class="headerlink" title="express preference"></a>express preference</h3><p>如果两个权重在计算得分时结果相同，可以用正则化对其进行选择</p>
-<h3 id="prefer-simpler-models"><a href="#prefer-simpler-models" class="headerlink" title="prefer simpler models"></a>prefer simpler models</h3><p>防止过拟合，避免产生复杂模型</p>
+<h3 id="express-preference">express preference</h3>
+<p>如果两个权重在计算得分时结果相同，可以用正则化对其进行选择</p>
+<h3 id="prefer-simpler-models">prefer simpler models</h3>
+<p>防止过拟合，避免产生复杂模型</p>
 ]]></content>
       <categories>
         <category>深度学习</category>
@@ -489,33 +468,41 @@
   <entry>
     <title>数学建模基础算法</title>
     <url>/2025/02/01/MCM/</url>
-    <content><![CDATA[<h1 id="求最优解（可解释算法）"><a href="#求最优解（可解释算法）" class="headerlink" title="求最优解（可解释算法）"></a>求最优解（可解释算法）</h1><h2 id="线性规划"><a href="#线性规划" class="headerlink" title="线性规划"></a>线性规划</h2><h2 id="蒙特卡洛法"><a href="#蒙特卡洛法" class="headerlink" title="蒙特卡洛法"></a>蒙特卡洛法</h2><p><strong>实验概率模拟</strong>：如随机抽样、采点估计圆周率</p>
-<h2 id="非线性规划"><a href="#非线性规划" class="headerlink" title="非线性规划"></a>非线性规划</h2><ul>
+    <content><![CDATA[<h1 id="求最优解可解释算法">求最优解（可解释算法）</h1>
+<h2 id="线性规划">线性规划</h2>
+<h2 id="蒙特卡洛法">蒙特卡洛法</h2>
+<p><strong>实验概率模拟</strong>：如随机抽样、采点估计圆周率</p>
+<h2 id="非线性规划">非线性规划</h2>
+<ul>
 <li>待求函数存在二次及以上的变量，求最优解</li>
 <li>待求函数仍然只有一个</li>
 </ul>
 <p><strong>解决方法</strong>： 有相关的求解函数</p>
-<h2 id="多目标规划"><a href="#多目标规划" class="headerlink" title="多目标规划"></a>多目标规划</h2><p><strong>存在多个“尽可能”要求</strong></p>
+<h2 id="多目标规划">多目标规划</h2>
+<p><strong>存在多个“尽可能”要求</strong></p>
 <p>解决方法：</p>
 <ul>
 <li>照常列出约束条件</li>
 <li>对于“尽可能”的目标约束，规定正、负偏差变量，将不等式条件转化为偏差变量最小和等式条件求解</li>
 </ul>
-<h1 id="评价类算法"><a href="#评价类算法" class="headerlink" title="评价类算法"></a>评价类算法</h1><h2 id="层次分析法"><a href="#层次分析法" class="headerlink" title="层次分析法"></a>层次分析法</h2><p><strong>在给出的方案中，根据一定的准则，计算评价，得出目标</strong></p>
+<h1 id="评价类算法">评价类算法</h1>
+<h2 id="层次分析法">层次分析法</h2>
+<p><strong>在给出的方案中，根据一定的准则，计算评价，得出目标</strong></p>
 <p>建模过程：</p>
-<ol>
+<ol type="1">
 <li>数据处理：对于表示方式不同、效益与成本类型不同、数量级不同的属性，进行归一化。因为最后加权求和得到评价，所以一般使用线性方法归一化。</li>
 <li>权重赋予：需要对不同属性赋予不同权重，突出不同重要性。使用判断矩阵确定权重，需要通过一致性检验，然后按列归一化，按行求和平均得到权重</li>
 </ol>
 <p>特点：</p>
-<ol>
+<ol type="1">
 <li>方案必须明确，一般从题目中分析得出</li>
 <li>方法简单明了，可处理复杂系统</li>
 <li>权重具有主观性，可能影响结果</li>
 </ol>
-<h2 id="TOPSIS法"><a href="#TOPSIS法" class="headerlink" title="TOPSIS法"></a>TOPSIS法</h2><p><strong>依据当前方案，构造正理想解和负理想解，综合方案和正、负理想解之间的距离，给出评价</strong></p>
+<h2 id="topsis法">TOPSIS法</h2>
+<p><strong>依据当前方案，构造正理想解和负理想解，综合方案和正、负理想解之间的距离，给出评价</strong></p>
 <p><strong>建模过程：</strong></p>
-<ol>
+<ol type="1">
 <li><p>数据处理：</p>
 <p>判断属性类型：</p>
 <blockquote>
@@ -524,22 +511,21 @@
 <p>区间型属性，根据数据与最优区间的差异进行处理。设置最优属性区间和无法容忍上下限，将属性转化为[0,1]之间的值</p>
 </blockquote>
 <p>向量规范化：统一数据的属性后，进行向量规范化。由于最后模型要计算距离，此处规范化的变换采用几何归一化（平方）</p>
-<p>加权处理：查文献、资料，直接加权重</p>
-</li>
+<p>加权处理：查文献、资料，直接加权重</p></li>
 <li><p>求解结果：</p>
 <ul>
 <li>求正、负理想解</li>
 <li>求各个解到理想解的距离</li>
 <li>综合两种距离得综合评价指数</li>
-</ul>
-</li>
+</ul></li>
 </ol>
 <p><strong>特点：</strong></p>
-<ol>
+<ol type="1">
 <li>适于客观评价类题目，数据量大而充足，准则明确</li>
 <li>充分利用了题目数据</li>
 </ol>
-<h2 id="熵权法"><a href="#熵权法" class="headerlink" title="熵权法"></a>熵权法</h2><p>对各个属性求熵值（范围从0到1），熵值接近1，混乱程度低，计算总评价时可给该指标赋予低权重</p>
+<h2 id="熵权法">熵权法</h2>
+<p>对各个属性求熵值（范围从0到1），熵值接近1，混乱程度低，计算总评价时可给该指标赋予低权重</p>
 <blockquote>
 <p>此处低熵值代表各个方案的该属性得分相近，该属性对总评价的影响较小</p>
 </blockquote>
@@ -552,59 +538,77 @@
 <li>完全客观，公平公正，不受主观因素影响</li>
 <li>只考虑了数据，难以将数据之外的因素考虑进去</li>
 </ul>
-<h1 id="预测类算法"><a href="#预测类算法" class="headerlink" title="预测类算法"></a>预测类算法</h1><h2 id="GM-1-1-灰色预测"><a href="#GM-1-1-灰色预测" class="headerlink" title="GM(1,1)  灰色预测"></a>GM(1,1)  灰色预测</h2><p>GM(1,1)中的两个1分别代表一元变量和一阶微分。灰色预测通过数据处理突出已知数据的规律，然后对处理后的数据建立一元一阶微分方程，微分方程的解可以预测处理后的数据，对预测值进行反向数据处理可得到原数据的预测值</p>
+<h1 id="预测类算法">预测类算法</h1>
+<h2 id="gm11-灰色预测">GM(1,1) 灰色预测</h2>
+<p>GM(1,1)中的两个1分别代表一元变量和一阶微分。灰色预测通过数据处理突出已知数据的规律，然后对处理后的数据建立一元一阶微分方程，微分方程的解可以预测处理后的数据，对预测值进行反向数据处理可得到原数据的预测值</p>
 <p>建模过程：</p>
-<ol>
+<ol type="1">
 <li>判断模型是否使用：对原数据进行一个xx检验</li>
-<li>累加法：新数据序列在 t 处的值 &#x3D; 原数据序列 1~t 处的值之和。虽然应该有其他的数据处理方法，但此处为了后面求解微分方程，似乎只能使用累加法</li>
-<li>新数据序列一般形如指数函数，我们建立微分方程，形如：dx^(1)^ &#x2F; dt + a*x^(1)^ &#x3D; u</li>
-<li>由于微分方程中a，u未知，我们需要先求解这两个常数。将一阶导数转换为原数据序列，然后利用最小二乘法即可求出a，u。注意此处为进一步削弱数据随机性，对x^(1)^再做均值处理。</li>
+<li>累加法：新数据序列在 t 处的值 = 原数据序列 1~t
+处的值之和。虽然应该有其他的数据处理方法，但此处为了后面求解微分方程，似乎只能使用累加法</li>
+<li>新数据序列一般形如指数函数，我们建立微分方程，形如：dx<sup>(1)</sup>
+/ dt + a*x<sup>(1)</sup> = u</li>
+<li>由于微分方程中a，u未知，我们需要先求解这两个常数。将一阶导数转换为原数据序列，然后利用最小二乘法即可求出a，u。注意此处为进一步削弱数据随机性，对x<sup>(1)</sup>再做均值处理。</li>
 <li>求解出a，u后，带入求解微分方程</li>
 <li>进行残差检验，判断模型拟合程度</li>
 </ol>
 <p>适用题目：</p>
-<ol>
+<ol type="1">
 <li>数据量少，看不出明显规律</li>
 <li>预测近期数据</li>
 <li>通过了灰色预测模型适用检测</li>
 </ol>
-<h2 id="传染病模型"><a href="#传染病模型" class="headerlink" title="传染病模型"></a>传染病模型</h2><p>几个不断完善的传染病预测模型</p>
-<h3 id="指数传播"><a href="#指数传播" class="headerlink" title="指数传播"></a>指数传播</h3><p><strong>模型假设</strong>：感染者人数为N( t )，随时间连续变化、可微。不考虑出生死亡、迁入迁出，不考虑治愈和免疫。感染者单位时间平均传染人数为$\lambda$</p>
+<h2 id="传染病模型">传染病模型</h2>
+<p>几个不断完善的传染病预测模型</p>
+<h3 id="指数传播">指数传播</h3>
+<p><strong>模型假设</strong>：感染者人数为N( t
+)，随时间连续变化、可微。不考虑出生死亡、迁入迁出，不考虑治愈和免疫。感染者单位时间平均传染人数为<span class="math inline"><em>λ</em></span></p>
 <p><strong>模型列方程求解</strong>：（指数增长）</p>
-<h3 id="SI"><a href="#SI" class="headerlink" title="SI"></a>SI</h3><p><strong>模型假设</strong>：在指数传播的基础上，设易感者比例为S，感染者比率为I，感染者单位时间平均接触人数为$\lambda$.</p>
+<h3 id="si">SI</h3>
+<p><strong>模型假设</strong>：在指数传播的基础上，设易感者比例为S，感染者比率为I，感染者单位时间平均接触人数为<span class="math inline"><em>λ</em></span>.</p>
 <p><strong>模型求解</strong>：（S型增长，在I值为50%时，感染者数量增长率一定最大）</p>
-<h3 id="SIS"><a href="#SIS" class="headerlink" title="SIS"></a>SIS</h3><p><strong>模型假设</strong>：在SI的基础上，假设每天被治愈的病人占病人总数比率为$\mu$，不考虑免疫</p>
-<h3 id="SIR"><a href="#SIR" class="headerlink" title="SIR"></a>SIR</h3><p><strong>模型假设</strong>：在SI的基础上，假设被治愈的病人有免疫力，设其为被移除人群，占人群总数的比率为R，R的初始值显然为0</p>
-<h3 id="SEIR"><a href="#SEIR" class="headerlink" title="SEIR"></a>SEIR</h3><p><strong>模型假设</strong>：在SIR的基础上，考虑潜伏期</p>
-<h3 id="该类模型的求解："><a href="#该类模型的求解：" class="headerlink" title="该类模型的求解："></a>该类模型的求解：</h3><p>matlab内置微分方程组数值求解器ode45</p>
-<h2 id="马尔可夫预测"><a href="#马尔可夫预测" class="headerlink" title="马尔可夫预测"></a>马尔可夫预测</h2><p>未来值的预测仅与当前值有关，与历史值均无关</p>
+<h3 id="sis">SIS</h3>
+<p><strong>模型假设</strong>：在SI的基础上，假设每天被治愈的病人占病人总数比率为<span class="math inline"><em>μ</em></span>，不考虑免疫</p>
+<h3 id="sir">SIR</h3>
+<p><strong>模型假设</strong>：在SI的基础上，假设被治愈的病人有免疫力，设其为被移除人群，占人群总数的比率为R，R的初始值显然为0</p>
+<h3 id="seir">SEIR</h3>
+<p><strong>模型假设</strong>：在SIR的基础上，考虑潜伏期</p>
+<h3 id="该类模型的求解">该类模型的求解：</h3>
+<p>matlab内置微分方程组数值求解器ode45</p>
+<h2 id="马尔可夫预测">马尔可夫预测</h2>
+<p>未来值的预测仅与当前值有关，与历史值均无关</p>
 <p>建模过程：</p>
-<ol>
+<ol type="1">
 <li>计算一步转移概率：根据理论推导、历史值或文献查找来确定各个状态的一步转移概率，得到一个矩阵</li>
 <li>计算初始化概率：根据类似方法确定初始化概率。注意：初始化概率不可以简单照搬一步转移概率</li>
 <li>求解下一步出现某状态的概率，或者n步以后的状态概率分布：n步以后使用初始化概率向量乘以概率矩阵的n次方即可求得</li>
 </ol>
-<p>时齐性：对于任意情况（时间等）下的状态 i ，其转移到状态 j 的概率都是一样的。往往与有周期性的数据有关</p>
+<p>时齐性：对于任意情况（时间等）下的状态 i ，其转移到状态 j
+的概率都是一样的。往往与有周期性的数据有关</p>
 <p>适用情况：</p>
-<ol>
+<ol type="1">
 <li>未来值仅与当前值有关的预测，并且未来值随机</li>
 <li>状态数有限且离散，仅需要预测状态出现的概率</li>
 <li>对于未明确说明有限，但是显然不会太多的状态数，可以假设限制其在一定范围</li>
 </ol>
-<h1 id="启发式算法"><a href="#启发式算法" class="headerlink" title="启发式算法"></a>启发式算法</h1><h2 id="模拟退火"><a href="#模拟退火" class="headerlink" title="模拟退火"></a>模拟退火</h2><p><strong>适用题型</strong>：</p>
+<h1 id="启发式算法">启发式算法</h1>
+<h2 id="模拟退火">模拟退火</h2>
+<p><strong>适用题型</strong>：</p>
 <ul>
 <li>规划类问题求最优解，在各种组合中寻优</li>
 <li>往往方案过多且传统方法只能遍历，时间复杂度过高</li>
 </ul>
 <p><strong>求解过程</strong>：</p>
-<ol>
+<ol type="1">
 <li>确定初始值，可使用蒙特卡洛法等随机一个较优解法</li>
-<li>设置初始温度$T_{0}$，降温系数$\alpha$，温度下限$e$。在while循环中温度不断降低，每次新的温度是之前的$\alpha$倍；当温度低于$e$时终止循环。</li>
+<li>设置初始温度<span class="math inline"><em>T</em><sub>0</sub></span>，降温系数<span class="math inline"><em>α</em></span>，温度下限<span class="math inline"><em>e</em></span>。在while循环中温度不断降低，每次新的温度是之前的<span class="math inline"><em>α</em></span>倍；当温度低于<span class="math inline"><em>e</em></span>时终止循环。</li>
 <li>while循环内嵌套for循环，实现固定温度下的马尔科夫过程（根据当前解和一定的随机算法求出一个新解）</li>
-<li>每次求得新解后，依据公式求出接受新解的概率：$P &#x3D; \begin{cases} 1, &amp; \Delta f &lt; 0, \ \exp(-\Delta f &#x2F; T_i), &amp; \Delta f \geq 0.<br>\end{cases}$​</li>
+<li>每次求得新解后，依据公式求出接受新解的概率：<span class="math inline">$P = \begin{cases} 1, &amp; \Delta f &lt; 0, \\
+\exp(-\Delta f / T_i), &amp; \Delta f \geq 0. \end{cases}$</span>​</li>
 </ol>
 <p><strong>退火算法根据当前解求出新解，随着温度下降，接受较差解的概率降低，当温度下降足够慢足够低，随机解足够多，算法收敛于最优解。优势在于防止陷入局部最优</strong></p>
-<h2 id="粒子群算法"><a href="#粒子群算法" class="headerlink" title="粒子群算法"></a>粒子群算法</h2><p><strong>适用题型</strong>：</p>
+<h2 id="粒子群算法">粒子群算法</h2>
+<p><strong>适用题型</strong>：</p>
 <ul>
 <li>高维度复杂函数的优化求解，此时可以替代fmincon求解非线性方程组</li>
 <li>神经网络等模型的初始值优化</li>
@@ -612,7 +616,7 @@
 <p><strong>优缺点</strong>：</p>
 <ul>
 <li>优点：收敛快，易实现</li>
-<li>缺点：局部搜索能力弱，需要合理调整参数$w,c_{1},c_{2}$</li>
+<li>缺点：局部搜索能力弱，需要合理调整参数<span class="math inline"><em>w</em>, <em>c</em><sub>1</sub>, <em>c</em><sub>2</sub></span></li>
 </ul>
 ]]></content>
       <categories>
@@ -625,46 +629,54 @@
   <entry>
     <title>OO Unit1</title>
     <url>/2025/08/28/OO-Unit1/</url>
-    <content><![CDATA[<h1 id="程序结构"><a href="#程序结构" class="headerlink" title="程序结构"></a>程序结构</h1><h2 id="OO度量分析"><a href="#OO度量分析" class="headerlink" title="OO度量分析"></a>OO度量分析</h2><p>由于类和方法数量较多，主要展示并分析比较复杂的类和方法</p>
-<h3 id="类复杂度分析"><a href="#类复杂度分析" class="headerlink" title="类复杂度分析"></a>类复杂度分析</h3><p><img src="https://img-community.csdnimg.cn/images/c520d7c31c0946f0bf5910a2e9da3f62.png" alt="image-20250322120207574"><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
+    <content><![CDATA[<h1 id="程序结构">程序结构</h1>
+<h2 id="oo度量分析">OO度量分析</h2>
+<p>由于类和方法数量较多，主要展示并分析比较复杂的类和方法</p>
+<h3 id="类复杂度分析">类复杂度分析</h3>
+<p><img src="0.png"></p>
 <p><strong>指标解释</strong>：</p>
 <table>
 <thead>
-<tr>
+<tr class="header">
 <th>名称</th>
 <th>含义</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr class="odd">
 <td>CSA</td>
 <td>类属性个数</td>
 </tr>
-<tr>
+<tr class="even">
 <td>WMC</td>
 <td>类的加权方法复杂度</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
 <p>可以看出Poly类和Parser类的方法复杂度很高，尤其是Poly类。</p>
 <p>对于Parser类，主要是因为要解析各种因子，导致方法数量飙升，共计13个方法。</p>
 <p>对于Poly类，主要是因为同时承担了计算表达式和将表达式转化为字符串的功能，导致方法数量和方法复杂度飙升。其中方法数量达到15个，且add()、polyToString()、unitToString()等方法较复杂（现在分析看来我应该把unitToString()放在Unit类中实现）</p>
-<h3 id="方法复杂度分析"><a href="#方法复杂度分析" class="headerlink" title="方法复杂度分析"></a>方法复杂度分析</h3><p><img src="https://img-community.csdnimg.cn/images/53451a437f794fd4ab1bec3c2c4eb84b.png" alt="image-20250322115627204"><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
+<h3 id="方法复杂度分析点击并拖拽以移动">方法复杂度分析<img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></h3>
+<p><img src="1.png"></p>
 <p><strong>指标解释</strong>：</p>
 <table>
 <thead>
-<tr>
+<tr class="header">
 <th>名称</th>
 <th>含义</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr class="odd">
 <td>LOC</td>
 <td>方法行数（规模）</td>
 </tr>
-<tr>
+<tr class="even">
 <td>v(G)</td>
 <td>方法的独立路径的条数</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
 <ul>
 <li>Lexer()用于解析输入，因为对不同的字符需要用不同的分支判断，所以复杂度较高。从v(G)（独立路径条数）的数据也可以看出这一点</li>
 <li>unitToStirng()和PolyToString()前面已经分析过</li>
@@ -672,28 +684,33 @@
 <li>doubleAngle()方法用于化简二倍角，该方法的复杂度源于化简算法本身较高的复杂度</li>
 <li>Preprocessor()用于去除空白符、合并连续的正负号。合并正负号需要对各种情况进行分支判断，造成了较高的复杂度</li>
 </ul>
-<h3 id="代码行数分析"><a href="#代码行数分析" class="headerlink" title="代码行数分析"></a>代码行数分析</h3><p><img src="https://img-community.csdnimg.cn/images/6768e09158b54a2f9f3a8df2e12f4882.png" alt="image-20250322110507182"><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
+<h3 id="代码行数分析">代码行数分析</h3>
+<p><img src="2.png"></p>
 <p>可以看出，行数最多、规模最大的类有Poly、Parser等，这与前面类的复杂度分析相吻合</p>
-<h3 id="类的内聚与耦合"><a href="#类的内聚与耦合" class="headerlink" title="类的内聚与耦合"></a>类的内聚与耦合</h3><p><img src="https://img-community.csdnimg.cn/images/649b9dc33a2340e9ad8021391b0f6cfa.png" alt="image-20250322114839310"><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
+<h3 id="类的内聚与耦合">类的内聚与耦合</h3>
+<p><img src="3.png"></p>
 <p><strong>指标解释</strong>：</p>
 <table>
 <thead>
-<tr>
+<tr class="header">
 <th>名称</th>
 <th>含义</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr class="odd">
 <td>LCOM</td>
 <td>方法的内聚缺乏度。值越大，说明类内聚合度越小</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
 <p>大部分类的LCOM值为1，小部分大于1。说明代码内聚度有待提升，类内部方法协同不够紧密</p>
-<p><img src="https://img-community.csdnimg.cn/images/986be971eea543a594fc9ddd8dbdaeab.png" alt="image-20250322122635570"><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
-<p>分析指标中，AC(Access to Class)、ND(Number of Dependencies)等指标数值都较低，说明代码具有较低的耦合度</p>
-<h2 id="UML类图"><a href="#UML类图" class="headerlink" title="UML类图"></a>UML类图</h2><p>第一单元作业<strong>最终架构</strong>的UML类图如下： </p>
-<p><img src="https://img-community.csdnimg.cn/images/f9b68f3072884d818259da697d3b57ee.jpg" alt="img"></p>
-<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
+<p><img src="4.png"></p>
+<p>分析指标中，AC(Access to Class)、ND(Number of
+Dependencies)等指标数值都较低，说明代码具有较低的耦合度</p>
+<h2 id="uml类图">UML类图</h2>
+<p>第一单元作业<strong>最终架构</strong>的UML类图如下：</p>
+<p><img src="5.jpg"></p>
 <p>优点：</p>
 <ul>
 <li>代码分为解析、存储、计算三大类别，各个类之间有比较清晰的依赖关系</li>
@@ -704,67 +721,69 @@
 <ul>
 <li>部分类较为复杂冗长（如Poly、Parser），递归较深，导致debug时难以定位错误</li>
 </ul>
-<h1 id="架构设计体验"><a href="#架构设计体验" class="headerlink" title="架构设计体验"></a>架构设计体验</h1><h2 id="hw1"><a href="#hw1" class="headerlink" title="hw1"></a>hw1</h2><p><img src="https://img-community.csdnimg.cn/images/2c45f5c38c6b4c6592f3fb0f801f3d7f.jpg" alt="img"></p>
-<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
+<h1 id="架构设计体验">架构设计体验</h1>
+<h2 id="hw1">hw1</h2>
+<p><img src="6.jpg"></p>
 <p>hw1是迭代作业的开始，设计的重点在于建立解析和计算表达式的整体架构，为了以后顺利迭代，还需要保证可拓展性</p>
-<h3 id="预处理"><a href="#预处理" class="headerlink" title="预处理"></a>预处理</h3><p>目的：删除输入中的所有空白符，以及合并输入中的连续正负号</p>
+<h3 id="预处理">预处理</h3>
+<p>目的：删除输入中的所有空白符，以及合并输入中的连续正负号</p>
 <p><strong>空白符</strong>：在循环过程中直接删除ascii码为32和9的字符</p>
 <p><strong>正负号</strong>：设置signal标志，初始值为1，仅当遇到负号时乘以-1，这样就可以合并连续的正负号。当然，需要一个hasSignal标志来标记当前正在处理正负号</p>
 <p>由于BigInteger和Int均可以处理前导零，预处理过程中不需要针对前导零做处理</p>
-<h3 id="表达式解析"><a href="#表达式解析" class="headerlink" title="表达式解析"></a>表达式解析</h3><p>为了应对未来可能的嵌套括号和新因子，使用递归下降法解析表达式。首先通过Lexer将表达式解析为一系列Token，然后利用Parser进一步解析为Expr，Term，Factor三个层次</p>
+<h3 id="表达式解析">表达式解析</h3>
+<p>为了应对未来可能的嵌套括号和新因子，使用递归下降法解析表达式。首先通过Lexer将表达式解析为一系列Token，然后利用Parser进一步解析为Expr，Term，Factor三个层次</p>
 <p><strong>Token</strong>：类型包括NUM，VAR，ADD，SUB，MUL，EXP，LP，RP</p>
-<p><strong>Lexer</strong>：负责将表达式解析为Token，可以用一次遍历+switch&#x2F;if的结构。其中NUM和EXP由于是数字，需要一个循环结构连续读取全部组成数字后转化为Token，其它类型均可直接读取</p>
+<p><strong>Lexer</strong>：负责将表达式解析为Token，可以用一次遍历+switch/if的结构。其中NUM和EXP由于是数字，需要一个循环结构连续读取全部组成数字后转化为Token，其它类型均可直接读取</p>
 <p><strong>Parser</strong>：根据形式化描述，将解析出来的Token数组递归生成Expr，Term和Factor</p>
 <p>Parser的实现可能需要一些思考，但抓住了形式化描述中三个层级之间的递归关系，就可拨云见日：</p>
 <ul>
-<li>Expr &#x3D; Term +&#x2F;- Term …</li>
-<li>Term &#x3D; Factor * Factor …</li>
-<li>Factor &#x3D; Number &#x2F; Power &#x2F; SubExpr</li>
+<li>Expr = Term +/- Term …</li>
+<li>Term = Factor * Factor …</li>
+<li>Factor = Number / Power / SubExpr</li>
 </ul>
 <p>Expr由Term连接而成，故parseExpr内部应该多次调用parseTerm以生成Term，同理，parseTerm内部多次调用parseFactor以生成Term。</p>
 <p>理清楚大体框架后，处理好符号、循环条件之类的细节，就可以完成Parser了</p>
-<h3 id="表达式合并化简"><a href="#表达式合并化简" class="headerlink" title="表达式合并化简"></a>表达式合并化简</h3><p>由于Expr，Term，Factor这几个不同类之间不方便运算，我设计了两个计算类Poly，Unit。其中Poly仅有成员变量units(储存Unit的数组) Unit则有成员变量coe(项系数)，exp(项次数)。这是因为最终结果中可能出现不同<em>次数</em>和<em>系数</em>的项，不可合并，而Poly应该能同时储存这些项。</p>
+<h3 id="表达式合并化简">表达式合并化简</h3>
+<p>由于Expr，Term，Factor这几个不同类之间不方便运算，我设计了两个计算类Poly，Unit。其中Poly仅有成员变量units(储存Unit的数组)
+Unit则有成员变量coe(项系数)，exp(项次数)。这是因为最终结果中可能出现不同<em>次数</em>和<em>系数</em>的项，不可合并，而Poly应该能同时储存这些项。</p>
 <p>合并化简是一个逐级进行的过程，Expr转Poly需要调用Term转Poly，Term转Poly需要调用Factor转Poly，</p>
-<h2 id="hw2"><a href="#hw2" class="headerlink" title="hw2"></a>hw2</h2><p><img src="https://img-community.csdnimg.cn/images/6807d941855c4d0db6a1e69dfcfa4f68.jpg" alt="img"><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
+<h2 id="hw2点击并拖拽以移动">hw2<img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></h2>
+<p><img src="7.jpg"></p>
 <p>hw2新增了三角函数因子、自定义递归函数因子和嵌套括号。其中嵌套括号在hw1的递归下降法中已经顺便得到了处理</p>
-<h3 id="三角函数"><a href="#三角函数" class="headerlink" title="三角函数"></a>三角函数</h3><p>思路：设置三角函数类Sin，Cos，实现Factor接口</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">public class Sin implements Factor &#123;</span><br><span class="line">    private final Factor factor;</span><br><span class="line">    private final int exp;</span><br><span class="line">&#125;</span><br><span class="line">public class Cos implements Factor &#123;</span><br><span class="line">    private final Factor factor;</span><br><span class="line">    private final int exp;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>新增三角函数后，Unit类的形式变为$a<em>x^b</em>\prod\limits_{i&#x3D;1}^n sin_i()\prod\limits_{j&#x3D;1}^n cos_j()$，Unit类中新增两个哈希表储存三角函数。同时重写hashCode和equals，从而在合并时可以方便地判断同类项</p>
-<h3 id="自定义递归函数"><a href="#自定义递归函数" class="headerlink" title="自定义递归函数"></a>自定义递归函数</h3><p>思路：新设置一个Definer类，用于储存函数定义，并通过展开函数因子，参与形成函数因子对象。定义函数时初始化Definer，调用defineFunc方法记录函数的三个定义式；解析到函数因子时创建Function类，在Function的构造函数中调用Definer的callFunc方法，返回函数因子展开后的表达式</p>
+<h3 id="三角函数">三角函数</h3>
+<p>思路：设置三角函数类Sin，Cos，实现Factor接口</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Sin</span> <span class="keyword">implements</span> <span class="title class_">Factor</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Factor factor;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="type">int</span> exp;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Cos</span> <span class="keyword">implements</span> <span class="title class_">Factor</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Factor factor;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="type">int</span> exp;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>新增三角函数后，Unit类的形式变为<span class="math inline">$a*x^b*\prod\limits_{i=1}^n
+sin_i()\prod\limits_{j=1}^n
+cos_j()$</span>，Unit类中新增两个哈希表储存三角函数。同时重写hashCode和equals，从而在合并时可以方便地判断同类项</p>
+<h3 id="自定义递归函数">自定义递归函数</h3>
+<p>思路：新设置一个Definer类，用于储存函数定义，并通过展开函数因子，参与形成函数因子对象。定义函数时初始化Definer，调用defineFunc方法记录函数的三个定义式；解析到函数因子时创建Function类，在Function的构造函数中调用Definer的callFunc方法，返回函数因子展开后的表达式</p>
 <p><strong>Definer</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">public class Definer &#123;</span><br><span class="line">    private static final ArrayList&lt;String&gt; formalPara = new ArrayList&lt;&gt;();</span><br><span class="line">    public static final HashMap&lt;String, String&gt; defineExpr = new HashMap&lt;&gt;();</span><br><span class="line">    </span><br><span class="line">    public static void defineFunc(ArrayList&lt;String&gt; defineStr) &#123;</span><br><span class="line">        /* some code */    </span><br><span class="line">    &#125;</span><br><span class="line">    public static Expr callFunc(Number deep, ArrayList&lt;Factor&gt; actualParas) &#123;</span><br><span class="line">        /* some code */    </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Definer</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> ArrayList&lt;String&gt; formalPara = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> HashMap&lt;String, String&gt; defineExpr = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">defineFunc</span><span class="params">(ArrayList&lt;String&gt; defineStr)</span> &#123;</span><br><span class="line">        <span class="comment">/* some code */</span>    </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Expr <span class="title function_">callFunc</span><span class="params">(Number deep, ArrayList&lt;Factor&gt; actualParas)</span> &#123;</span><br><span class="line">        <span class="comment">/* some code */</span>    </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>成员变量：</p>
 <ul>
-<li>ArrayList<String> formalPara 形参列表。</li>
+<li>ArrayList<String> formalPara 形参列表。</String></li>
 <li>HashMap&lt;String, String&gt; defineExpr 函数表达式和递推表达式</li>
 </ul>
 <p><strong>Function因子</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">public class Function implements Factor &#123;</span><br><span class="line">    private final Expr expr;</span><br><span class="line">    </span><br><span class="line">    /* 构造函数 */</span><br><span class="line">    public Function(Number depth, ArrayList&lt;Factor&gt; actualParas) &#123;</span><br><span class="line">        expr = Definer.callFunc(depth, actualParas);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="hw3"><a href="#hw3" class="headerlink" title="hw3"></a>hw3</h2><p><img src="https://img-community.csdnimg.cn/images/ea4c172abbb94497b45e1bc1d8f19edf.jpg" alt="img"><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Function</span> <span class="keyword">implements</span> <span class="title class_">Factor</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Expr expr;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/* 构造函数 */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Function</span><span class="params">(Number depth, ArrayList&lt;Factor&gt; actualParas)</span> &#123;</span><br><span class="line">        expr = Definer.callFunc(depth, actualParas);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="hw3">hw3</h2>
+<p><img src="8.jpg"></p>
 <p>hw3要求增加自定义普通函数、求导算子</p>
-<h3 id="自定义普通函数"><a href="#自定义普通函数" class="headerlink" title="自定义普通函数"></a>自定义普通函数</h3><p>经过对原代码递推函数的分析，感觉在解析深层递推函数的时候不会因为使用了字符串替换而造成复杂度飙升，实际上代码在hw2的强侧互测中也没有出现TLE、MLE的问题，故没有重构。计划在原架构基础上增加自定义普通函数，更改如下：</p>
-<ul>
-<li><pre><code>ArrayList&lt;String&gt; formalPara --&gt; HashMap&lt;String, ArrayList&lt;String&gt;&gt; formalPara // 一个函数符号对应一组形参
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">- ```</span><br><span class="line">  // 将defineFunc分为defNormalFunc和defRecurFunc，分别定义普通函数和递归函数</span><br><span class="line">  public static void defNormalFunc(String defineStr)</span><br><span class="line">  public static void defRecurFunc(ArrayList&lt;String&gt; defineStr)</span><br></pre></td></tr></table></figure>
-</code></pre>
-</li>
-<li><pre><code>// 将callFunc分为callNormalFunc和callRecurFunc，分别解析普通函数调用和递归函数调用
-public static Expr callNormalFunc(String funcName, ArrayList&lt;Factor&gt; actualParas)
-public static Expr callRecurFunc(Number deep, String funcName, ArrayList&lt;Factor&gt; actualParas)
-</code></pre>
-</li>
-</ul>
+<h3 id="自定义普通函数">自定义普通函数</h3>
+<p>经过对原代码递推函数的分析，感觉在解析深层递推函数的时候不会因为使用了字符串替换而造成复杂度飙升，实际上代码在hw2的强侧互测中也没有出现TLE、MLE的问题，故没有重构。计划在原架构基础上增加自定义普通函数，更改如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">ArrayList&lt;String&gt; formalPara --&gt; HashMap&lt;String, ArrayList&lt;String&gt;&gt; formalPara <span class="comment">// 一个函数符号对应一组形参</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 将defineFunc分为defNormalFunc和defRecurFunc，分别定义普通函数和递归函数</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">defNormalFunc</span><span class="params">(String defineStr)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">defRecurFunc</span><span class="params">(ArrayList&lt;String&gt; defineStr)</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 将callFunc分为callNormalFunc和callRecurFunc，分别解析普通函数调用和递归函数调用</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> Expr <span class="title function_">callNormalFunc</span><span class="params">(String funcName, ArrayList&lt;Factor&gt; actualParas)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> Expr <span class="title function_">callRecurFunc</span><span class="params">(Number deep, String funcName, ArrayList&lt;Factor&gt; actualParas)</span></span><br></pre></td></tr></table></figure>
 <p>然后稍微对输入解析做一些修改，就可以兼容自定义普通函数了</p>
-<h3 id="求导算子"><a href="#求导算子" class="headerlink" title="求导算子"></a>求导算子</h3><p>hw3的实现依赖原有的架构，使用递归的思路进行求导。下面先分析表达式结构中各个成分的求导方法以及返回类型，然后据此设计求导函数derive()</p>
+<h3 id="求导算子">求导算子</h3>
+<p>hw3的实现依赖原有的架构，使用递归的思路进行求导。下面先分析表达式结构中各个成分的求导方法以及返回类型，然后据此设计求导函数derive()</p>
 <p>Expr</p>
 <p>表达式求导结果即为各个项求导之和，即求导返回值为Expr类型</p>
-<p>$d(Expr) &#x3D; d(Term_1) + d(Term_2) + … + d(Term_n)$</p>
+<p><span class="math inline"><em>d</em>(<em>E</em><em>x</em><em>p</em><em>r</em>) = <em>d</em>(<em>T</em><em>e</em><em>r</em><em>m</em><sub>1</sub>) + <em>d</em>(<em>T</em><em>e</em><em>r</em><em>m</em><sub>2</sub>) + ... + <em>d</em>(<em>T</em><em>e</em><em>r</em><em>m</em><sub><em>n</em></sub>)</span></p>
 <p>Term</p>
 <p>项的求导稍微复杂，稍微推导一下可以发现结果是一个表达式（本人较菜就不严谨推导了）</p>
-<p>$d(Term) &#x3D; d(Factor_1)<em>Factor_2</em>…<em>Factor_n + Factor_1</em>d(Factor_2)<em>…<em>Factor_n + Factor_1</em>Factor_2</em>…*d(Factor_n)$</p>
+<p><span class="math inline"><em>d</em>(<em>T</em><em>e</em><em>r</em><em>m</em>) = <em>d</em>(<em>F</em><em>a</em><em>c</em><em>t</em><em>o</em><em>r</em><sub>1</sub>) * <em>F</em><em>a</em><em>c</em><em>t</em><em>o</em><em>r</em><sub>2</sub> * ... * <em>F</em><em>a</em><em>c</em><em>t</em><em>o</em><em>r</em><sub><em>n</em></sub> + <em>F</em><em>a</em><em>c</em><em>t</em><em>o</em><em>r</em><sub>1</sub> * <em>d</em>(<em>F</em><em>a</em><em>c</em><em>t</em><em>o</em><em>r</em><sub>2</sub>) * ... * <em>F</em><em>a</em><em>c</em><em>t</em><em>o</em><em>r</em><sub><em>n</em></sub> + <em>F</em><em>a</em><em>c</em><em>t</em><em>o</em><em>r</em><sub>1</sub> * <em>F</em><em>a</em><em>c</em><em>t</em><em>o</em><em>r</em><sub>2</sub> * ... * <em>d</em>(<em>F</em><em>a</em><em>c</em><em>t</em><em>o</em><em>r</em><sub><em>n</em></sub>)</span></p>
 <p>Factor</p>
 <p>不同的因子求导结果其实并不一样，但为了统一接口，我们可以将其都设计为返回一个项</p>
 <p>其中有几个比较特殊的：</p>
@@ -773,19 +792,28 @@ public static Expr callRecurFunc(Number deep, String funcName, ArrayList&lt;Fact
 <li>求导因子：对求导因子的实现类似于函数因子，成员变量也是展开后的表达式。故而对求导因子的求导（相当于求一个高阶导数）也要包装一下</li>
 </ul>
 <p>自此，各个部分的derive()都有了定义。但是由于对项求导的结果是表达式，会出现“表达式+表达式”的情况，所以我们需要新增一个方法以实现合并；同理，也需要新增一个“项*”项“的方法</p>
-<h2 id="自定迭代情景"><a href="#自定迭代情景" class="headerlink" title="自定迭代情景"></a>自定迭代情景</h2><p>假设下一次迭代要求新增以e为底的指数因子，形式为$e^{&lt;因子&gt;}$，下面分析如何在hw3的基础上进行迭代</p>
-<h3 id="解析方面"><a href="#解析方面" class="headerlink" title="解析方面"></a>解析方面</h3><ul>
+<h2 id="自定迭代情景">自定迭代情景</h2>
+<p>假设下一次迭代要求新增以e为底的指数因子，形式为<span class="math inline"><em>e</em><sup> &lt; <em>因</em><em>子</em>&gt;</sup></span>，下面分析如何在hw3的基础上进行迭代</p>
+<h3 id="解析方面">解析方面</h3>
+<ul>
 <li>新增指数对应的Token和parse解析方法，以解析指数因子</li>
 </ul>
-<h3 id="存储方面"><a href="#存储方面" class="headerlink" title="存储方面"></a>存储方面</h3><ul>
+<h3 id="存储方面">存储方面</h3>
+<ul>
 <li>新增指数因子类，实现Factor接口</li>
 </ul>
-<h3 id="计算方面"><a href="#计算方面" class="headerlink" title="计算方面"></a>计算方面</h3><ul>
-<li>多项式的基本单元更改为$a<em>x^b</em>e^{f(x)}*\prod\limits_{i&#x3D;1}^n sin_i(g(x))\prod\limits_{j&#x3D;1}^n cos_j(h(x))$</li>
+<h3 id="计算方面">计算方面</h3>
+<ul>
+<li>多项式的基本单元更改为<span class="math inline">$a*x^b*e^{f(x)}*\prod\limits_{i=1}^n
+sin_i(g(x))\prod\limits_{j=1}^n cos_j(h(x))$</span></li>
 <li>多项式的相乘和相加根据新增的指数因子做出修改，相乘时考虑指数因子的次数的相加，相加时将指数因子纳入同类项的判断</li>
 </ul>
-<h1 id="自己程序的bug"><a href="#自己程序的bug" class="headerlink" title="自己程序的bug"></a>自己程序的bug</h1><p>第一单元的作业中hw2出现了两处bug：输出三角函数时部分内嵌因子没有加上括号，输出格式错误；合并同类项时提出正弦函数因子的负号有错误。</p>
-<h2 id="内嵌因子括号错误"><a href="#内嵌因子括号错误" class="headerlink" title="内嵌因子括号错误"></a>内嵌因子括号错误</h2><p>问题出在Poly类的方法singleUnit()上。这是一个很简单的方法，只有两三行，用于在输出过程中判断三角函数内嵌因子是否为表达式，如果是表达式，那么理应加上一层括号使其成为表达式因子。但是我在设计过程中考虑不周，想当然地认为最小运算单元$a<em>x^b</em>\prod\limits_{i&#x3D;1}^n sin_i(g(x))\prod\limits_{j&#x3D;1}^n cos_j(h(x))$是一个因子，但这其实是一个项。</p>
+<h1 id="自己程序的bug">自己程序的bug</h1>
+<p>第一单元的作业中hw2出现了两处bug：输出三角函数时部分内嵌因子没有加上括号，输出格式错误；合并同类项时提出正弦函数因子的负号有错误。</p>
+<h2 id="内嵌因子括号错误">内嵌因子括号错误</h2>
+<p>问题出在Poly类的方法singleUnit()上。这是一个很简单的方法，只有两三行，用于在输出过程中判断三角函数内嵌因子是否为表达式，如果是表达式，那么理应加上一层括号使其成为表达式因子。但是我在设计过程中考虑不周，想当然地认为最小运算单元<span class="math inline">$a*x^b*\prod\limits_{i=1}^n
+sin_i(g(x))\prod\limits_{j=1}^n
+cos_j(h(x))$</span>是一个因子，但这其实是一个项。</p>
 <p>事后发现这个bug可谓非常无语，一通分析后总结出几个原因：</p>
 <ul>
 <li>阅读作业要求时不够细致或没有理清楚每个细节，最后出现理解上的错误</li>
@@ -793,22 +821,27 @@ public static Expr callRecurFunc(Number deep, String funcName, ArrayList&lt;Fact
 <li>中测太弱了(bushi)</li>
 </ul>
 <p>而这种问题的解决方法，最好还是在阅读作业要求的时候就细心一点，注意要求中的坑点。毕竟要让评测机判断输出格式的正确性难度比较大，还不如自己搓一些数据点测试，而且如果对题意理解有问题说不定评测机写出来也是错的……</p>
-<h2 id="提负号错误"><a href="#提负号错误" class="headerlink" title="提负号错误"></a>提负号错误</h2><p>这个bug倒是没在强测和互测中被测出来，而是在我测别人的代码时发现的。bug位于Unit的mul()方法中处理三角函数相乘的部分。简单来说，正弦函数是一个奇函数，如果想提出内嵌因子的负号，正弦函数前的系数应该变号。但是如果正弦函数有偶数次幂，那么整体就变成了偶函数，提出负号时系数不需要变号。问题就出在没有判断这个偶数次幂</p>
+<h2 id="提负号错误">提负号错误</h2>
+<p>这个bug倒是没在强测和互测中被测出来，而是在我测别人的代码时发现的。bug位于Unit的mul()方法中处理三角函数相乘的部分。简单来说，正弦函数是一个奇函数，如果想提出内嵌因子的负号，正弦函数前的系数应该变号。但是如果正弦函数有偶数次幂，那么整体就变成了偶函数，提出负号时系数不需要变号。问题就出在没有判断这个偶数次幂</p>
 <p>bug出现原因：</p>
 <ul>
 <li>首先还是算法分析出现了问题，没有注意到偶数次幂的情况</li>
 <li>其次是测试不够充分，这个方法属于计算类，没有构建JUnit测试。刚好我在hw2写的评测机也有问题，导致错误样例没被检测出来……</li>
 </ul>
 <p>这个mul()方法有约40行，虽然逻辑不复杂，但也确实有点臃肿。完全应该把三角函数合并的部分抽象出来，方便进行单元测试。</p>
-<h2 id="bug复杂度分析"><a href="#bug复杂度分析" class="headerlink" title="bug复杂度分析"></a>bug复杂度分析</h2><p>第一个bug的方法太过简短，主要分析一下第二个bug</p>
-<p><img src="https://img-community.csdnimg.cn/images/e20397ef3b5c4e5d819ae6e0a5d696b6.png" alt="image-20250322140749913"><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
+<h2 id="bug复杂度分析">bug复杂度分析</h2>
+<p>第一个bug的方法太过简短，主要分析一下第二个bug</p>
+<p><img src="9.png"></p>
 <p>可以看到，出现Bug的方法mul()的圈复杂度并不算很高，说明该方法比较结构化。但是方法的行数比较多，这会导致对方法的检查比较困难。基于其结构化的特点，应该将mul()拆分成几个子方法，进一步降低方法的复杂度</p>
-<h1 id="发现别人bug的策略"><a href="#发现别人bug的策略" class="headerlink" title="发现别人bug的策略"></a>发现别人bug的策略</h1><p>三次作业中我采取的主要测试策略都是写评测机进行黑盒测试，hw3中也设计了一些递归较深的样例，试图爆TLE&#x2F;MLE，基本没怎么研究被测程序的结构</p>
+<h1 id="发现别人bug的策略">发现别人bug的策略</h1>
+<p>三次作业中我采取的主要测试策略都是写评测机进行黑盒测试，hw3中也设计了一些递归较深的样例，试图爆TLE/MLE，基本没怎么研究被测程序的结构</p>
 <ul>
 <li>黑盒测试：力大砖飞，前期花费一些力气写好评测机，之后不管是自查还是hack都很方便。只要生成数据没问题，还是能查到不少bug</li>
-<li>深递归样例：主要针对优化较多或结构复杂的代码，前者是因为优化输出长度不可避免地会增加判断逻辑，导致代码性能下降；后者则是因为代码写得太复杂而性能很差。很可惜我构造的样例没能爆出TLE&#x2F;MLE，感觉是自己功力不足</li>
+<li>深递归样例：主要针对优化较多或结构复杂的代码，前者是因为优化输出长度不可避免地会增加判断逻辑，导致代码性能下降；后者则是因为代码写得太复杂而性能很差。很可惜我构造的样例没能爆出TLE/MLE，感觉是自己功力不足</li>
 </ul>
-<h1 id="代码优化"><a href="#代码优化" class="headerlink" title="代码优化"></a>代码优化</h1><h2 id="hw1-1"><a href="#hw1-1" class="headerlink" title="hw1"></a>hw1</h2><p>第一次作业的优化主要是输出格式，包括：</p>
+<h1 id="代码优化">代码优化</h1>
+<h2 id="hw1-1">hw1</h2>
+<p>第一次作业的优化主要是输出格式，包括：</p>
 <ul>
 <li>第一项是正项时省略正号</li>
 <li>指数是1时省略</li>
@@ -817,7 +850,8 @@ public static Expr callRecurFunc(Number deep, String funcName, ArrayList&lt;Fact
 <li>系数是0时直接输出0</li>
 </ul>
 <p>这些优化主要是在输出阶段增加判断逻辑，各个部分做好抽象就不会太复杂</p>
-<h2 id="hw2-1"><a href="#hw2-1" class="headerlink" title="hw2"></a>hw2</h2><p>第二次作业针对三角函数做了一些优化，包括：</p>
+<h2 id="hw2">hw2</h2>
+<p>第二次作业针对三角函数做了一些优化，包括：</p>
 <ul>
 <li>含sin(0)的项输出0，cos(0)化简为1</li>
 <li>三角函数指数为1时省略</li>
@@ -825,13 +859,16 @@ public static Expr callRecurFunc(Number deep, String funcName, ArrayList&lt;Fact
 <li>提三角函数内部的负号以进一步合并</li>
 </ul>
 <p>其中复杂度稍微高一些的就是第四点，可以将三角函数的合并抽象为单独的方法，降低原方法的复杂度，同时方便单元测试</p>
-<h2 id="hw3-1"><a href="#hw3-1" class="headerlink" title="hw3"></a>hw3</h2><p>第三次作业做了一点二倍角优化，即2sin(x)cos(x)&#x3D;sin(2x)。优化过程需要遍历哈希表中的三角函数，比较复杂。我将这部分抽象为一个方法，单独进行单元测试，保证了正确性</p>
-<h1 id="心得体会"><a href="#心得体会" class="headerlink" title="心得体会"></a>心得体会</h1><ul>
+<h2 id="hw3-1">hw3</h2>
+<p>第三次作业做了一点二倍角优化，即2sin(x)cos(x)=sin(2x)。优化过程需要遍历哈希表中的三角函数，比较复杂。我将这部分抽象为一个方法，单独进行单元测试，保证了正确性</p>
+<h1 id="心得体会">心得体会</h1>
+<ul>
 <li>面向对象作业中第一次作业的架构设计有着至关重要的作用，直接影响后续迭代的工作量。另一个角度想，如果前期的架构不合适，应该尽快重构</li>
 <li>每次作业设计迭代方案时必须把优化考虑在内，而不是把优化当作一个“有机会再做”的部分，不然着手优化时会困难重重</li>
 <li>认真写评测机并做好测试，不然互测时各种难受（</li>
 </ul>
-<h1 id="未来方向"><a href="#未来方向" class="headerlink" title="未来方向"></a>未来方向</h1><p>总的来说感觉挺好，可以考虑平衡一下第二次作业和第三次作业的难度，感觉今年这两次难度差距有点大。</p>
+<h1 id="未来方向">未来方向</h1>
+<p>总的来说感觉挺好，可以考虑平衡一下第二次作业和第三次作业的难度，感觉今年这两次难度差距有点大。</p>
 <p>祝OO愉快！</p>
 ]]></content>
       <categories>
@@ -839,6 +876,389 @@ public static Expr callRecurFunc(Number deep, String funcName, ArrayList&lt;Fact
       </categories>
       <tags>
         <tag>面向对象</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>OO Unit2</title>
+    <url>/2025/08/28/OO-Unit2/</url>
+    <content><![CDATA[<h1 id="同步块与锁">同步块与锁</h1>
+<h2 id="同步块与锁的选择">同步块与锁的选择</h2>
+<p>三次作业中，我提交到OO平台的代码都使用synchronized进行同步，这主要基于以下两点原因：</p>
+<ol type="1">
+<li>并发读/写的强度并不算很大。最终作业中主要有两类共享资源：总的请求池ReqList和各个电梯的信息表InfoTable。ReqList主要被InputThread和DispatchThread访问，在取消receive时会被ElevatorThread访问；InfoTable仅被DispatchThread和对应的ElevatorThread访问。由此看来，并不会出现大量线程同时访问一个共享资源的情况，</li>
+<li>读/写操作的频率相差不多。分析线程对共享资源的访问，可以发现许多都是加/减元素，并不会出现读远多于写的情况。</li>
+</ol>
+<p>故而，太细粒度的锁和读写锁都显得不怎么必要，反而可能增加代码复杂度。所以我选择使用synchronized结合自定义的锁对象进行同步控制。</p>
+<h2 id="锁与语句的关系">锁与语句的关系</h2>
+<p>锁应该保证同步块中对共享资源的处理语句成为原子操作，避免出现多个线程同时访问一个共享资源的情况。我在作业中声明了一些锁对象，用于对不同的共享资源进行更灵活的安全访问，对于涉及同一个对共享资源的处理语句，都需要放在同一个锁对象的同步块中，保障线程安全。</p>
+<h1 id="调度器">调度器</h1>
+<h2 id="调度器设计与线程交互">调度器设计与线程交互</h2>
+<h3 id="hw5">hw5</h3>
+<p>第五次作业指定了乘客搭乘的电梯，没有调度器的设计，也没有调度器与其他线程的交互</p>
+<h3 id="hw6">hw6</h3>
+<p>第六次作业的调度器使用均分策略，调度器主要访问请求列表ReqList和电梯信息表InfoTable。输入线程会将解析出的请求放入请求列表ReqList，调度器取出请求并根据调度策略将请求放入对应电梯的信息表InfoTable，电梯线程取出请求并执行</p>
+<h3 id="hw7">hw7</h3>
+<p>第七次作业的调度器仍采用均分策略。为了解决双轿厢电梯的问题，建立了一个电梯井类Well来辅助调度器。此时调度器主要访拥有请求列表ReqList和电梯井Well，电梯井拥有电梯信息表InfoTable。此时调度器线程与输入线程的交互方式不变。在与电梯线程的交互中，调度器线程会根据调度策略将请求放入合适的电梯井，电梯井中进一步将请求放入合适的电梯信息表，最后由电梯线程取出并处理</p>
+<h2 id="调度策略">调度策略</h2>
+<h3 id="hw5-1">hw5</h3>
+<p>第五次作业中没有使用调度器</p>
+<h3 id="hw6-1">hw6</h3>
+<p>第六次作业中主要采用了均分策略。为了避免分配请求时跳过所有临时调度中的电梯（围师必阙），导致rtle，我给每个电梯增加了缓冲buffer，调度器分配时实际上只将请求放入buffer。receive操作作为电梯的一个动作，待电梯结束临时调度动作后会检查buffer并决定是否receive。</p>
+<p>由于临时调度请求消耗的时间一般较长，将太多请求放入临时调度中的电梯将会影响请求完成时间，降低性能。为此我给每个电梯设置一个标志位，电梯处于临时调度状态时，如果被调度器指定且标志位为0，则将标志位置1，并跳过该电梯；如果电梯标志位为1，则将标志位置0，并将请求分配给该电梯。</p>
+<h3 id="hw7-1">hw7</h3>
+<p>第七次作业中仍然采用了均分策略。与第六次作业不同的是，本次作业出现了双轿厢，且双轿厢电梯的运行速度提升到了0.2s/层。因此我在第六次作业的基础上对乘客请求做了特判，如果请求可以被双轿厢电梯其中之一完成，则将请求直接分配给该电梯，利用双轿厢电梯的速度优势缩短总体时间。</p>
+<h1 id="作业迭代">作业迭代</h1>
+<h2 id="hw5-2">hw5</h2>
+<h3 id="uml类图">UML类图</h3>
+<p><img src="b7a74dc4619a4a9983ccc26c89e6f707.jpeg"></p>
+<h3 id="uml协作图">UML协作图</h3>
+<p><img src="dc3e440247c7495baca10a9396631953.jpeg"></p>
+<h3 id="架构设计与变化分析">架构设计与变化分析</h3>
+<p>第五次作业内容比较简单，我采用了生产者-消费者模式进行代码设计。其中输入线程作为生产者，解析并产生请求；电梯线程作为消费者，获取请求并处理。后续的迭代证明生产者-消费者模式在本单元作业中有良好的扩展性</p>
+<h2 id="hw6-2">hw6</h2>
+<h3 id="uml类图-1">UML类图</h3>
+<p><img src="e2217124ef15419da0f2485d085ce8c8.jpeg"></p>
+<h3 id="uml协作图-1">UML协作图</h3>
+<p><img src="1ed5e4ea17cd477c9ce0eb4a28bb14f9.jpeg"></p>
+<h3 id="架构设计与变化分析-1">架构设计与变化分析</h3>
+<p>第六次作业在生产者-消费者模式的基础上增加了单例模式的计数器，用于计算请求数量和完成数量，计数器在第七次作业中也很好地发挥了作用。相比第五次作业，本次作业由于乘客不再指定电梯，增加了调度器的设计，由此代码形成了输入-调度-电梯处理的三层架构，这个架构很好地适应了下一次的迭代。此外为了兼容临时调度请求，为电梯新增了相关动作。</p>
+<h2 id="hw7-2">hw7</h2>
+<h3 id="uml类图-2">UML类图</h3>
+<p><img src="c53da21e48834aec91ad031912a7f943.jpeg"></p>
+<h3 id="uml协作图-2">UML协作图</h3>
+<p><img src="07a42ee229ee448688541d9ab64df1da.jpeg"></p>
+<h3 id="架构设计与变化分析-2">架构设计与变化分析</h3>
+<p>第七次作业仍是生产者-消费者模式与单例模式相结合。由于增加了双轿厢电梯，此次不仅增加了电梯线程的动作类别，还新增了电梯井类，并改进了调度器线程的运行方式（结合电梯井类进行调度）</p>
+<h2 id="三次作业迭代情况总体分析">三次作业迭代情况总体分析</h2>
+<p>电梯单元的代码主要有三个线程：输入线程、调度器线程、电梯线程，这三个线程通过访问共享资源进行协作。</p>
+<p>可以发现，迭代过程中改动较大的是调度器和电梯相关的内容。这主要是因为业务要求的变化主要体现在请求的增加和改变，为了处理不同的请求，需要调整调度器的调度策略并为电梯增加新的动作和储存容器。</p>
+<p>改动较小的则是输入处理以及整体架构。输入端的任务主要是解析请求，当新增请求时只需要增加一个判断分支即可。输入线程-调度器线程-电梯线程的架构已经可以处理电梯单元的任务，所以架构也比较的稳定</p>
+<h1 id="双轿厢实现">双轿厢实现</h1>
+<h2 id="双轿厢同步">双轿厢同步</h2>
+<p>第三次作业要求两部电梯在均完成开门-下客-关门后才可以开始双轿厢改造。我采用了Java
+并发工具类CyclicBarrier进行同步。</p>
+<p>CyclicBarrier的设计思想是让一组线程在达到某个公共屏障点时彼此等待，直到所有线程都到达该点，然后屏障打开，所有线程同时继续执行。下面详细介绍一下CyclicBarrier的工作机制：</p>
+<p><strong>计数器机制：</strong> 当构造 <code>CyclicBarrier</code>
+对象时，会设置一个初始计数值（双轿厢改造中应为2），这个计数器用来记录还需要有多少线程调用
+<code>await()</code> 才能达到设定的数量。当线程调用 <code>await()</code>
+时，内部计数器会减少。</p>
+<ul>
+<li>当最后一个线程调用 <code>await()</code>
+并使计数器归零时，会触发屏障。此时，所有等待的线程都会被唤醒同时继续执行。</li>
+<li>如果在屏障构造时提供了一个 <code>Runnable</code>
+任务，那么在最后一个线程到达并触发屏障时，将先执行这个任务，然后再继续唤醒所有线程。</li>
+</ul>
+<p><strong>线程等待机制：</strong> 调用 <code>await()</code>
+的线程进入等待状态。当计数器未归零时，这些线程会被挂起（通常借助条件变量或等待队列）。这种等待是阻塞式的，而不是忙等待，因此不会持续占用
+CPU 时间。</p>
+<p>在作业中，使用CyclicBarrier可以方便地使电梯线程阻塞在屏障。当两部电梯都抵达屏障后，执行Runnable任务中的内容，一条龙完成“UPDATE-BEGIN”输出、电梯receive请求取消、“UPDATE-END”输出这三个操作，最后两个电梯线程同时结束升级，作为双轿厢继续处理请求。</p>
+<h2 id="轿厢碰撞处理">轿厢碰撞处理</h2>
+<p><strong>避免跨越共享楼层</strong>：</p>
+<p>在第七次作业中，我为乘客请求新增了nextFloor变量，并新增了一个电梯井类，负责处理双轿厢电梯之间的协作。电梯进行决策时关注nextFloor而不是targetFloor，也就是说电梯不需要设计乘客的转乘方式，而是由电梯井进行设计。</p>
+<p>当请求分配到一个电梯井时，电梯井会判断井中是否为双轿厢电梯。如果是，则进一步判断乘客请求的起始楼层和目标楼层与双轿厢共享楼层的关系。如果乘客请求跨越了共享楼层，则将nextFloor设置为共享楼层，否则将nextFloor设置为目标楼层。这样一来，就可以保证电梯在根据nextFloor进行动作时不会跨越共享楼层。</p>
+<p><strong>避免在共享楼层相撞</strong>：</p>
+<p>为了节省耗电量，当电梯在共享楼层放下目前最后一位乘客时，我并不让电梯直接离开，但这带来了电梯碰撞的潜在风险。</p>
+<p>这里我新增了一个避让请求RemiseReqrEntry，并结合信号量来解决这个问题。电梯A进入共享楼层时需要申请信号量锁。如果信号量为0，则电梯A会往请求列表中加入一个指定电梯B的避让请求并阻塞。电梯B接收避让请求后移动一层并自动释放信号量锁，此时电梯A获得信号量锁，进入共享楼层。</p>
+<h1 id="程序bug分析">程序bug分析</h1>
+<h2 id="出现的bug">出现的bug</h2>
+<p>Unit2中我在强测和互测中均没有出现bug。下面仅总结分析一些完成作业过程中发现的bug</p>
+<h3 id="加锁顺序错误">加锁顺序错误</h3>
+<p>synchronized的加锁具有可重入的特点，但是加锁顺序不正确就可能出现死锁问题。举个例子：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">methodA</span> <span class="params">()</span> &#123;</span><br><span class="line">	<span class="keyword">synchronized</span>(lock1) &#123;</span><br><span class="line">		<span class="keyword">synchronized</span>(lock2) &#123;</span><br><span class="line">			<span class="comment">/*some code*/</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">methodB</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">synchronized</span>(lock2) &#123;</span><br><span class="line">		<span class="keyword">synchronized</span>(lock1) &#123;</span><br><span class="line">			<span class="comment">/*some code*/</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果线程A和线程B分别同时执行methodA和methodB方法，就可能出现A持lock1等待lock2，B持lock2等待lock1的死锁情况。</p>
+<p>当不同方法嵌套调用时，锁重入关系可能变得更加复杂，难以分析。我在发现可能是因为加锁顺序导致了死锁问题时，在草稿纸上列出了各个方法的调用和加锁顺序，最后定位到了bug。</p>
+<h3 id="线程协作时操作的原子性">线程协作时操作的原子性</h3>
+<p>如果说加锁顺序bug是由于锁太多导致的，那么这个bug可以说是锁加少导致的。</p>
+<p>在电梯判断下一步动作时，如果发现请求为空且结束信号为false，则会执行wait动作。但是在我最初的设计中，判断是在策略类进行的，而wait是在信息表类进行的，这意味着wait动作不是一个原子操作。如果在电梯判断和执行之间，调度器线程给电梯新分配了请求，那么就会导致电梯线程挂起而不被该请求唤醒。如果该请求恰好是最后一个请求，那么电梯线程就会一直挂起而不处理请求，造成整个程序超时。</p>
+<p>由于判断和执行的分离，我无法将整个操作变为一个原子操作，最后只得在真正执行wait之前再次判断请求是否为空。这有点打补丁的味道，但是其实蛮简单有效的。</p>
+<blockquote>
+<p>发现这个bug的时候大为震惊，以为自己一开始的架构设计就有大问题，后来问了问舍友，发现大家都是这样写的，而且都有这个bug，于是安心地打补丁了(bushi)</p>
+</blockquote>
+<h2 id="debug方法">debug方法</h2>
+<p>这单元的debug主要还是搭建评测机进行测试，在发现bug后则采用System.out的方法判断各个线程的运行情况，进而发现bug。</p>
+<p>评测机的测试强度主要由测试点强度和并发强度保障。测试点依靠随机生成，采用指数分布和平均分布两种生成模式，其中指数分布类似于现实中到达电梯的乘客分布，可以在短时间内产生大量请求，测试电梯在高并发场景下的正确性。另外，在测试时，利用python的multiprocessing.Process方法创建多个进程，一方面提升评测机效率，另一方面提升评测机压力从而提高死锁检测的准确性</p>
+<h1 id="心得体会">心得体会</h1>
+<h2 id="线程安全">线程安全</h2>
+<p>本单元作业中，随着业务越来越复杂，线程安全问题越来越凸显。为了保证线程安全，一方面要仔细分析共享资源以及线程之间的协作关系，合理加锁，保证操作的原子性；另一方面要尽可能简化线程协作，降低出现bug的风险</p>
+<h2 id="层次化设计">层次化设计</h2>
+<p>一个层次分明的架构毫无疑问会带来巨大好处。输入线程-调度器线程-电梯线程的结构，使得我在迭代和查bug时基本只用关注某两个线程如何交互，思路更加清晰（虽然bug还是很难查）。</p>
+<p>而要设计层次化的架构，感觉很重要的一点还是合理分解任务，让各部分代码实现不同功能，最后达到低耦合的目的。</p>
+]]></content>
+      <categories>
+        <category>面向对象</category>
+      </categories>
+      <tags>
+        <tag>面向对象</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>OO Unit3</title>
+    <url>/2025/08/29/OO-Unit3/</url>
+    <content><![CDATA[<h2 id="测试过程">测试过程</h2>
+<h3 id="对不同测试方式的理解">对不同测试方式的理解</h3>
+<ol type="1">
+<li><strong>单元测试</strong>：针对代码最小可测试单元（如类方法）的测试，验证独立逻辑正确性，通常由开发者在编码时编写，一般为静态的白盒测试。</li>
+<li><strong>功能测试</strong>：验证系统功能是否符合需求，模拟用户操作流程，关注端到端业务逻辑是否正确。</li>
+<li><strong>集成测试</strong>：测试多个模块或服务协同工作时的交互，检查接口兼容性、数据传递和整体流程是否正常，具有更强的综合性。</li>
+<li><strong>压力测试</strong>：通过模拟高并发、大数据量等极端条件，评估系统性能瓶颈、资源消耗和稳定性。</li>
+<li><strong>回归测试</strong>：代码修改后重新运行已有测试用例，确保新改动未破坏原有功能，防止已经修复好的错误重新出现。OO的bug修复过程采用了回归测试的思想</li>
+</ol>
+<h3 id="数据构造的策略">数据构造的策略</h3>
+<p>本单元的程序构造了一个图模型，虽然相比于前两个单元，构造数据不需要考虑递归下降、时序先后等问题，但是如果单纯随机构造数据，会使得构建出的图过于稀疏，或者运行的结果仅是各种异常抛出，达不到全面测试的效果。此处分析我在Junit单元测试（白盒测试）和自动化测试（黑盒测试）的数据构造策略</p>
+<h3 id="junit单元测试">Junit单元测试</h3>
+<p>Junit单元测试集中于测试某个方法的正确性，并不需要很大的数据量（比如上百个person），只要覆盖了各种情况就能有很好的效果。</p>
+<p>本人测试的数据规模一般为15个person，然后用循环的方法，逐步将边数从零图增加到完全图状态，并在此过程中不断调用被测方法，判断调用的正确性。如此一来就可以覆盖零图到稀疏图到完全图的所有状态，而且测试代码比较简洁</p>
+<h3 id="自动化测试">自动化测试</h3>
+<p>自动化测试的数据生成倒是简单，但是想生成有强度的数据相当困难。这里采用了<strong>指令分类+维护社交网络状态</strong>的方法提高数据强度。</p>
+<p><strong>指令分类</strong></p>
+<p>观察指导书中的指令，我们可以发现其大致可以分为三类：<strong>添加、删除、查询</strong>。</p>
+<p>要使得我们生成的数据不会对着一个零图删删查查，我们需要首先生成一定量的<em>添加</em>指令，即初始化一个图。其中，还要考虑各种添加操作的比例。例如add_relation指令要比add_person多得多，按照完全图计算的话，<span class="math inline"><em>n</em>(<em>a</em><em>r</em>)</span>应该是<span class="math inline">$\frac{n(ap)*[n(ap)-1]}{2}$</span>，否则就会导致图节点很多但是边很少。此外，为了测试零图/稀疏图的情况，也可以在初始化图之前先生成各种指令进行测试。</p>
+<p>在初始化图之后，可以考虑使用随机数生成剩下的指令。此时也需要考虑各个指令的比例，以提高数据质量</p>
+<p><strong>维护社交网络状态</strong></p>
+<p>本人在数据生成器中设置了一些数据结构，储存person、tag、account、article等的id以及他们之间的相互关系，并在数据生成的过程中动态维护这些数据结构。在生成一条指令时，可以参考数据结构中的内容，控制该指令是让程序正常执行还是抛出异常，再结合随机数，就可以调整被测程序正常执行/抛出异常的概率，从而覆盖各种测试情况。</p>
+<h2 id="大模型辅助编程">大模型辅助编程</h2>
+<p>本单元中我在第一次作业、第二次作业和实验课使用了大模型辅助编程，并与自己独立编程做对比。下面从大模型编程效果和引导大模型的方法两方面进行分析。</p>
+<h3 id="大模型效果">大模型效果</h3>
+<p>鉴于JML规格的严谨性，我尝试将官方包中的接口和异常类全部上传给DeepSeek，然后调整提示词让大模型完成代码编写。总体来说大模型可以完成本单元的任务，（比如第一次、第二次作业我的代码基本可以用大模型生成），但是也有不少缺点：</p>
+<ol type="1">
+<li>大模型可能受限于上下文长度，往往“偷懒”，有一部分的类方法不生成出来，仅提示“按照类似方法可以完成这部分代码”。此时需要再次给提示词说明“请编写代码完成xxx方法”。</li>
+<li>大模型对复杂逻辑的处理不稳定。第一次作业中，涉及一些方法的实现需要调用一些辅助方法，但是DeekSeek只做了一个声明，而没有实现具体功能，最后还是我自己补上了。。。</li>
+<li>大模型不一定可以保证代码性能最优化。第一次作业中，大模型的代码并没有使用并查集实现isCircle()，这在性能上显然有比较大损失。不过有时大模型也能给出不错的实现，比如在我增加“尽可能提升代码性能”的提示后，大模型采用了动态维护的方法实现<em>查询三元环</em>操作，这个实现是我一开始没想到的</li>
+<li>大模型写代码可能导致自己对代码不熟悉。由于大模型多半不能一步到位，程序员还得自己优化代码，此时由于代码并非自己完成，就可能在优化过程中遗漏一些地方。比如我就忘了在删人时动态维护tag_value_sum（</li>
+</ol>
+<p>补充几点大模型优点：</p>
+<ol type="1">
+<li>辅助理解JML。在第三次作业中，惊现长达75行的巨无霸JML，即便硬着头皮读还是读不懂。此时让大模型先根据JML写一遍代码或者用自然语言描述要求，都对我们理解JML有很大帮助</li>
+<li>细节处理到位。大模型代码的异常处理部分准确度很高，没有出现传错id的错误</li>
+</ol>
+<h3 id="大模型引导方法">大模型引导方法</h3>
+<ul>
+<li>提供完整信息。上传完整文件可以保证大模型生成的代码不会遗漏重要内容。本人在第一次用大模型生成时没有上传异常类，结果生成的代码中，每个异常处理都没有输入id</li>
+<li>提供关键词提示。在输入中加入“JML专家”、“代码性能”、“仿照已有的JML规格”等等关键词，有助于引导模型生成高质量代码</li>
+<li>同一上下文环境多次引导。在同一个上下文中请求大模型完成类似的代码生成任务，可以提高大模型的效果</li>
+</ul>
+<h2 id="架构设计">架构设计</h2>
+<h3 id="uml类图">UML类图</h3>
+<p><strong>hw9</strong></p>
+<p><img src="UML_hw9.jpg"></p>
+<p><strong>hw10</strong></p>
+<p><img src="UML_hw10.jpg"></p>
+<p><strong>hw11</strong></p>
+<p><img src="UML_hw11.jpg"></p>
+<h3 id="图模型构建与维护">图模型构建与维护</h3>
+<p><strong>连通性查询</strong>：isCircle的实现我采用了并查集，并通过路径压缩提升效率。个人认为如果使用了路径压缩后再实现按秩合并，会出现压缩时需要动态维护秩的问题，造成代码复杂度大幅增加，为了这点微不足道的优化而大幅增加复杂度没有比较，于是没有使用按秩合并。删除关系时，则以其中一个person为起点，通过bfs部分重建并查集</p>
+<p><strong>动态维护</strong>：这是一个多数查询方法都采用了的策略，即每次图有相关的变化时都修改一次维护对象，查询时直接返回对象值。这样便把复杂度平摊到了每一次的修改操作中，提升了代码的整体性能</p>
+<p><strong>脏位设置</strong>：第三次作业中，每个人接受到的文章中可能出现重复id，这就使得简单的基于哈希的存储和查询方法不能奏效了。本人使用ArrayList存储&lt;文章,
+脏位&gt;键值对，HashMap存储文章id对应的所有索引，在删除文章时，只将对应脏位设为0。如此便保证文章的加入和删除操作均变为了O(1)。坏处在于由于文章id没有被实际删除，占用的空间不会被释放，所以在数据超级大时可能MLE，但是强测也才1万条数据，用ArrayList存1万个entry应该不过分吧……</p>
+<h2 id="性能问题">性能问题</h2>
+<p>很遗憾，第二次作业中因为LinkedList吃了亏，挂了一个点。我在deleteArticle的实现中，先循环遍历tag中的所有person，然后对person执行removeReceivedArticle。由于receivedArticle使用LinkedList储存，一来二去整个方法的复杂度成了O(<span class="math inline"><em>n</em><sup>2</sup></span>)，喜提不通过。</p>
+<p>针对这个问题，我直接用LinkedHashSet替换了LinkedList，同时保证了添加和删除复杂度为O(1)。在第三次作业中，由于文章id可重复，我改用ArrayList+HashMap+脏位来保证性能。</p>
+<p>虽然JML规定了代码的实现规格，但是JML本身的描述未必是实现的最优解，往往还可能是性能最差的那一批。此时我们就必须将实现与规格分离，在保证JML的各项要求得到满足的前提下，尽可能地利用各种数据结构和算法，提升代码的性能</p>
+<h2 id="junit测试">Junit测试</h2>
+<h3 id="junit设计">Junit设计</h3>
+<p>在本单元，使用Junit测试代码其实就是检查代码是否遵循了JML的各个要求。JML主要由requires、assignable、ensures等部分构成。其中requires是测试数据需要满足的约束，而assignable和ensures则是代码要满足的约束。测试时要根据assignable和ensures涉及的内容，检查代码是否正确满足ensures要求，是否改变assignable以外的内容。</p>
+<h3 id="junit效果">Junit效果</h3>
+<p>只要在Junit测试中将几条内容逐个检查清楚，基本可以保证代码与JML的一致性，从这个角度看，Junit可以说是指哪打哪。但是对于代码中一些多模块协作的情况，Junit不容易检测出其中的逻辑错误，这时候也要结合一些其他测试方法来检测bug（比如黑盒测试）</p>
+<h2 id="学习体会">学习体会</h2>
+<p>JML规格化设计，与前两个单元大不相同。个人感觉这个单元对我的提升主要在思维上，也就是通过JML了解了规格化设计这么一个工具，并深刻学习到了其中的思想。当然，还学习了各种各样的图论知识并增强了看一长串说明的能力……</p>
+<p>此外，看根据JML实现代码也十分考验人的细心程度，毕竟一不留神就可能写错异常处理，全盘皆输。我在这个单元出的bug也是相当多相当冤了（再次证明了充分大量测试的重要性）。OO还剩一个单元，希望能安然度过吧</p>
+]]></content>
+      <categories>
+        <category>面向对象</category>
+      </categories>
+      <tags>
+        <tag>面向对象</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>OO Unit4</title>
+    <url>/2025/08/29/OO-Unit4/</url>
+    <content><![CDATA[<h1 id="正向建模与开发">正向建模与开发</h1>
+<p>本单元以图书馆系统为背景，设计了一个增量迭代任务，并要求进行架构设计并完成类图、状态图、顺序图等UML图。完成后感觉，只要以图书馆为中心协调各个部分，用户、书架、借还处等实体分工合作，就可以获得一个易于迭代的架构：每次新增功能时增加对应类，在图书馆中添加相关协作逻辑即可，不需要进行大量的改动</p>
+<h1 id="架构设计">架构设计</h1>
+<p>本单元作业的架构如下：</p>
+<p><img src="hw15_uml.jpg"></p>
+<p>本单元作业以Library为核心，协调其他各个类之间的协作；其他类储存自身的数据并实现相关方法供Library调用。</p>
+<h2 id="代码设计和uml模型设计的追踪关系">代码设计和UML模型设计的追踪关系</h2>
+<h3 id="一致性">一致性</h3>
+<p>代码的类、属性、方法实现与UML类图均一致，书本的状态转换与状态图一致，代码方法的调用与时序图中的消息调用链也一致</p>
+<h3 id="完整性">完整性</h3>
+<p>UML中的元素均与代码中的实现一一对应</p>
+<h3 id="正确性">正确性</h3>
+<p>泛化关系均通过继承或借口正确映射</p>
+<h1 id="大模型辅助正向建模">大模型辅助正向建模</h1>
+<h2 id="大模型使用体验">大模型使用体验</h2>
+<p>大模型可以根据指导书内容分析需求，并给出一个大致的架构，但是一次直接生成的架构往往会有遗漏，需要自行补充完善或多次对话完善</p>
+<h2 id="大模型引导">大模型引导</h2>
+<p>对于复杂的场景，首先需要手动提取出需要大模型关注的内容，减少干扰；然后在提示词中明确需要大模型完成的任务，避免大模型思维发散；大模型输出了架构设计后，提供反馈让大模型改进。总的来说，大模型往往不能一次完成架构设计任务，需要多轮的对话调整。</p>
+<h1 id="架构设计思维的演进">架构设计思维的演进</h1>
+<p>在四个单元的学习中，设计的架构可拓展性逐步提高，并不断朝着高内聚、低耦合的方向前进</p>
+<p>在第一单元中，学习了继承与抽象，并用以设计简单的架构</p>
+<p>从第二个单元开始，逐渐了解并实践了一些经典的模型，比如生产者-消费者模型。这些模型比较好地抽象出了类与类之间的协调关系，使得实现的代码有了更清晰的架构，方便调试以及之后的迭代</p>
+<p>第三、四单元的架构比较简单，基本上直接依照指导书要求就可以设计出不错的架构</p>
+<h1 id="测试思维的演进">测试思维的演进</h1>
+<p>OO课中debug是不得不品的一环。</p>
+<p>在第一单元，我采用了JUnit和评测机相结合的测试方法，每完成一个类就写一个相应的JUnit测试，最后再由评测机上量</p>
+<p>之后的几个单元则专注于评测机编写（这大概也是一种退化），结合一些手搓的数据测试性能</p>
+<h3 id="测试数据覆盖更全面">测试数据覆盖更全面</h3>
+<p>写数据生成器的过程中肯定越来越注意数据覆盖的全面性了，也使用了各种策略来提高数据的全面性，尤其是第三单元的图评测</p>
+<h3 id="性能测试和正确性测试相结合">性能测试和正确性测试相结合</h3>
+<p>评测机不太容易测出性能问题，需要自己注意代码中性能较差的部分并针对性地构造数据测试</p>
+<h1 id="课程收获">课程收获</h1>
+<ul>
+<li>在每周一次的迭代开发历练下，代码能力有了很大提升，debug能力也增长了不少</li>
+<li>学习到了面向对象编程的思想，此后不管写面向对象还是面向过程都会好好封装</li>
+<li>提升了架构设计的能力，同时也感受到了架构设计对后续迭代的影响。多多少少感受到自己的代码没有那么shi山了</li>
+</ul>
+<p>在这一个学期，有强测爆点的痛苦，有互测的血流成河，有清明时节的死锁幽灵，也有rtle的不明所以。大二下半学期已经染上了OO的颜色，或许你会问我，若再来一次，是否还会选择OO。但我确实不想再写了，完结撒花~</p>
+]]></content>
+      <categories>
+        <category>面向对象</category>
+      </categories>
+      <tags>
+        <tag>面向对象</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>How to create a blog</title>
+    <url>/2024/08/11/blog-create/</url>
+    <content><![CDATA[<h1 id="小白创建hexo的艰难路程">小白创建hexo的（艰难）路程</h1>
+<h2 id="step-1-下载工具">step 1: 下载工具</h2>
+<p>自行下载git、nodejs</p>
+<p><strong>检查是否下载成功：</strong></p>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">node -v</span><br><span class="line">npm -v (node自带包管理器)</span><br><span class="line">git -v</span><br></pre></td></tr></table></figure>
+<p><strong>下载hexo：</strong></p>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">npm install hexo-cli -g</span><br></pre></td></tr></table></figure>
+<h2 id="step-2-新建仓库">step 2: 新建仓库</h2>
+<ol type="1">
+<li>创建一个github账号（连接不上请用魔法）</li>
+<li>在home页面的左侧点击Create repository或之类的</li>
+<li>Repository name: <用户名>.github.io</用户名></li>
+<li>勾选 Public 和 Add a README file</li>
+<li>点击创建仓库</li>
+</ol>
+<h2 id="step-3-生成ssh-keys">step 3: 生成SSH Keys</h2>
+<p>在git bash中输入如下代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ssh-keygen -t  rsa -C &lt;邮箱地址&gt;</span><br></pre></td></tr></table></figure>
+<p>接着敲四下键盘</p>
+<p>在路径”C:.ssh”下找到文件”id_rsa.pub”，复制文件中的所有内容</p>
+<p>在github–&gt;settings–&gt;SSH中，新建SSH
+Keys。Title任意，Key中粘贴刚刚复制的内容，然后点击Add SSH Key</p>
+<p><strong>在git bash中输入以下命令验证是否成功添加：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ssh -T git@github.com</span><br></pre></td></tr></table></figure>
+<p><strong>出现successfully authenticated就成功了（大概）</strong></p>
+<h2 id="step-3-本地部署">step 3: 本地部署</h2>
+<ul>
+<li>创建一个文件夹放置博客文件，如”BlogFile”</li>
+<li>打开git bash并且cd到该文件夹</li>
+<li>输入以下命令</li>
+</ul>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">hexo init #初始化空文件夹</span><br><span class="line">hexo install #下载相关文件</span><br><span class="line">hexo g #生成静态文件</span><br><span class="line">hexo s #本地部署。这将得到一个链接，打开就可看到本地部署的blog</span><br><span class="line">Ctrl ^C #停止本地服务器</span><br></pre></td></tr></table></figure>
+<h2 id="step-4-上传博客">step 4: 上传博客</h2>
+<ul>
+<li><p>在github的仓库中，点击Code并复制仓库链接。（它或许长这样：“https://github.com/<用户名>/<用户名>.github.io”）</用户名></用户名></p></li>
+<li><p>打开”BlogFile”文件夹中的”_config.yml”文件，将文件末尾deploy:及以后的内容改为以下代码
+：</p></li>
+</ul>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">deploy:</span><br><span class="line">	type:git</span><br><span class="line">	repository:<span class="string">&quot;https://github.com/&lt;用户名&gt;/&lt;用户名&gt;.github.io&quot;</span> <span class="comment">//此处是复制的仓库链接</span></span><br><span class="line">	branch:main</span><br></pre></td></tr></table></figure>
+<ul>
+<li>打开git bash并cd到”BlogFile”，输入：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo g</span><br></pre></td></tr></table></figure>
+<p><em>此处可能出现诸如“git未部署”之类的问题（主要是忘记那个报错叫什么了），请下载插件hexo-deployer-git</em></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install hexo-deployer-git</span><br></pre></td></tr></table></figure>
+<ul>
+<li>上传blog，输入：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo d</span><br></pre></td></tr></table></figure>
+<p><em>第一次使用时，需要设置配置</em></p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">git config --global user.email <span class="string">&quot;your@example.com&quot;</span> <span class="comment">//填入邮箱</span></span><br><span class="line">git config --global user.name <span class="string">&quot;your name&quot;</span> <span class="comment">//填入用户名</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>配置完成后再次上传：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo d</span><br></pre></td></tr></table></figure>
+<ul>
+<li>在弹出的github窗口中登录</li>
+</ul>
+<h2 id="step-5-访问">step 5: 访问</h2>
+<p>输入”<用户名>.github.io”访问</用户名></p>
+<h2 id="网络问题">网络问题</h2>
+<p><u>在以上步骤中，涉及下载和上传的步骤都可能出现网络问题。这很玄学</u></p>
+<p><strong>可能的解决方法</strong>：</p>
+<ol type="1">
+<li>重新开启/关闭梯子</li>
+<li>更换下载的镜像源：<a href="https://blog.csdn.net/qq_43940789/article/details/131449710">国内npm源镜像（npm加速下载）
+指定npm镜像_npm 国内镜像-CSDN博客</a></li>
+<li>等一等。有时候你只需要等一等（比如我吃了个午饭后，hexo
+d就正常上传了）</li>
+<li>在stackoverflow上看到一个集大成的回答</li>
+</ol>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">npm config rm proxy #这个似乎是移除了npm的一些代理设置，因为npm原先有些奇奇怪怪的代理设置</span><br><span class="line">npm config rm https-proxy</span><br><span class="line">npm config <span class="built_in">set</span> https-proxy https://username:password@proxy.company.com:<span class="number">6050</span></span><br><span class="line">npm config <span class="built_in">set</span> proxy http://username:password@proxy.company.com:<span class="number">6050</span></span><br><span class="line">npm config <span class="built_in">set</span> registry http://registry.npmjs.org/</span><br></pre></td></tr></table></figure>
+<p>最终我通过换源+“npm config rm proxy”成功弄通了npm install</p>
+<h2 id="写博客">写博客</h2>
+<p>在git bash中输入”hexo new
+<文件名>“后，会自动创建一个.md文件，编辑这个文件后g、s、d就可以了</文件名></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>BUAA编译实验期末</title>
+    <url>/2026/01/11/compiler-finalexam/</url>
+    <content><![CDATA[<h1 id="buaa编译实验期末2026">BUAA编译实验期末2026</h1>
+<span id="more"></span>
+<p>编译实验期末包括四个要提交的题：</p>
+<ul>
+<li>文法修改题（10分）：在原本文法上新增内容，需要修改编译器代码后提交</li>
+<li>竞速排序题（10分）：没有修改文法，生成mips的可以直接交。之前没有参与竞速排序的不用交</li>
+<li>优化前/后代码：对竞速排序题公开的样例，提交优化前/后的中间/目标代码</li>
+<li>简答题（5分）：根据生成的代码（pcode/llvm、mips）选择一道简答题回答并提交</li>
+</ul>
+<h2 id="文法修改题">文法修改题</h2>
+<p>这道题修改了两处文法：</p>
+<ol type="1">
+<li><p>Stmt → LVal ‘=’ Exp ‘;’ | <strong>‘cin’ ‘&gt;&gt;’ LVal
+‘;’</strong></p>
+<p>其中<code>cin</code>的 token
+是<code>CINTK</code>，<code>&gt;&gt;</code>的 token
+是<code>SHF</code>。这个新文法需要进行错误处理，包括<strong>h：不改变常量的值</strong>和<strong>i：缺少分号</strong>。新增的<code>cin</code>效果和<code>getint</code>一样，都是从标准输入读入一个数字，被读入的数存取<code>LVal</code>中。</p></li>
+<li><p>MulExp → UnaryExp | MulExp (’*’ | ‘/’ | ‘%’ |
+<strong>‘-&gt;’</strong>) UnaryExp</p>
+<p>其中<code>-&gt;</code>的 token 是
+<code>LEFTQRIGHTTK</code>（<del>好像是，记不清了</del>）。运算含义是：<code>a-&gt;b = a + (a + 1) + (a + 2) + ...  + b</code>。运算的优先级和<code>*、/、%</code>相同。</p></li>
+</ol>
+<h3 id="思路">思路</h3>
+<p><strong>前端</strong></p>
+<p>前端的更改都比较简单。新增 token
+解析就行了。这里我把<code>cin</code>、
+<code>&gt;&gt;</code>、<code>-&gt;</code>分别与<code>ident</code>、<code>&gt;</code>、<code>-</code>一起处理。</p>
+<p>分号和不可更改常量的错误处理照搬之前的代码。</p>
+<p><strong>中端</strong></p>
+<p>对于<code>cin</code>，由于我不想改后端代码（<del>也不会改后端代码</del>），所以在中端直接处理成了调用<code>getint</code>函数实现读入数字，然后将函数调用指令的值存到<code>LVal</code>中。大概是这样：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">visitCin</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">IrValue</span> <span class="variable">ptr</span> <span class="operator">=</span> ((LVal) children.get(<span class="number">2</span>)).visit();</span><br><span class="line">	<span class="type">ArrayList</span> <span class="variable">args</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ArrayList</span>();</span><br><span class="line">	<span class="type">IrFunciton</span> <span class="variable">func</span> <span class="operator">=</span> IrModule.getFunction(<span class="string">&quot;getint&quot;</span>);</span><br><span class="line">	<span class="type">IrValue</span> <span class="variable">val</span> <span class="operator">=</span> IrBuilder.buildCall(func, args);</span><br><span class="line">	IrBuilder.buildStore(val, ptr);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>对于<code>-&gt;</code>，注意到<span class="math inline">$a
+\rightarrow b = a + (a+1) + \dots + b =
+\frac{(b-a+1)(a+b)}{2}$</span>，所以这个运算可以转化为已知条数的加减乘除运算，这其实就比较好处理了。可以在中端处理乘除余的位置进行处理：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">IrValue</span> <span class="variable">b_jian_a</span> <span class="operator">=</span> IrBuilder.buildBinary(SUB, b, a);</span><br><span class="line"><span class="type">IrValuue</span> <span class="variable">b_jian_a_jia_1</span> <span class="operator">=</span> IrBuilder.buildBinary(ADD, b_jian_a, <span class="keyword">new</span> <span class="title class_">IrConstInt</span>(<span class="number">1</span>));</span><br><span class="line"><span class="type">IrValue</span> <span class="variable">a_jia_b</span> <span class="operator">=</span> IrBuilder.buildBinary(ADD, a, b);</span><br><span class="line"><span class="type">IrValue</span> <span class="variable">mul_res</span> <span class="operator">=</span> IrBuilder.buildBinary(MULT, b_jian_a_jia_1, a_jia_b);</span><br><span class="line"><span class="type">IrValue</span> <span class="variable">res</span> <span class="operator">=</span> IrBuilder.buildBinary(SDIV, mul_res, <span class="keyword">new</span> <span class="title class_">IrConstInt</span>(<span class="number">2</span>));</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>最开始没想起来求和公式的时候已经计划大战循环了，这里的<span class="math inline"><em>a</em></span>和<span class="math inline"><em>b</em></span>都是变量，没法在编译期间确定要算多少次，如果采用循环的话就要生成一整个llvm的循环块</p>
+</blockquote>
+<h2 id="简答题">简答题</h2>
+<blockquote>
+<p>考试的简答题似乎并没有想象中的那么签到，还是需要预留一些时间进行作答的（<del>其实是我对代码太不熟悉了</del>）</p>
+</blockquote>
+<p>简答题要求<strong>结合自己的代码</strong>回答问题，需要具体到某个文件、类、函数、代码行之类的</p>
+<p>mips的简答题是根据竞速排序的那段公开样例，回答四个小问，大概是这样：</p>
+<ol type="1">
+<li><code>main</code>函数调用<code>rnd</code>函数时传入了5个参数。根据MIPS调用规范，前四个参数存在<code>$a0-$a3</code>，你的编译器是如何处理第五个参数的？<code>rnd</code>函数如何获取第五个参数</li>
+<li><code>partition</code>函数在循环中调用了<code>swap</code>函数。你的编译器是否会在函数调用前保护临时寄存器<code>$t0-$t9</code>？如果<code>swap</code>函数使用了临时寄存器，那么这些寄存器内的值会被覆盖，你是如何解决以上寄存器冲突的？</li>
+<li><code>partition</code>函数的一个参数<code>int a[]</code>向函数传递了一个指针，函数内通过<code>a</code>和临时变量<code>j</code>访问了<code>a[j]</code>。你的mips序列是如何利用<code>a</code>和<code>j</code>访问到物理地址<code>a[j]</code>的？</li>
+<li>对于<code>partition</code>和<code>sort</code>函数，你的编译器实现了什么优化？如果没有实现优化，请考虑一下可以实现什么优化。</li>
+</ol>
+]]></content>
+      <categories>
+        <category>编译技术</category>
+      </categories>
+      <tags>
+        <tag>编译技术</tag>
       </tags>
   </entry>
 </search>
